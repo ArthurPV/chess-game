@@ -1,0 +1,7 @@
+[workspace]
+members = [
+	"cli",
+	"game",
+	"opening",
+	"reader"
+]
