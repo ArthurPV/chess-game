@@ -68,4 +68,28 @@ impl ChessPieceKind {
             _ => false,
         }
     }
+
+    pub fn is_black_piece(&self) -> bool {
+        match self {
+            Self::Pawn(ChessPieceColor::Black)
+            | Self::Bishop(ChessPieceColor::Black, _)
+            | Self::Knight(ChessPieceColor::Black)
+            | Self::Rook(ChessPieceColor::Black)
+            | Self::Queen(ChessPieceColor::Black)
+            | Self::King(ChessPieceColor::Black) => true,
+            _ => false,
+        }
+    }
+
+    pub fn is_white_piece(&self) -> bool {
+        match self {
+            Self::Pawn(ChessPieceColor::White)
+            | Self::Bishop(ChessPieceColor::White, _)
+            | Self::Knight(ChessPieceColor::White)
+            | Self::Rook(ChessPieceColor::White)
+            | Self::Queen(ChessPieceColor::White)
+            | Self::King(ChessPieceColor::White) => true,
+            _ => false,
+        }
+    }
 }

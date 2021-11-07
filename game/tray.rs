@@ -325,6 +325,10 @@ pub struct Tray {
     // tray.5 = a6..h6
     // tray.6 = a7..h7
     // tray.7 = a8..h8
+    pub active_black_piece: Vec<ChessBox>,
+    pub active_white_piece: Vec<ChessBox>,
+    pub eat_black_piece: Vec<ChessPieceKind>,
+    pub eat_white_piece: Vec<ChessPieceKind>,
 }
 
 impl Tray {
@@ -340,6 +344,10 @@ impl Tray {
                 Vec::new(),
                 Vec::new(),
             ),
+            active_black_piece: Vec::new(),
+            active_white_piece: Vec::new(),
+            eat_black_piece: Vec::new(),
+            eat_white_piece: Vec::new(),
         }
     }
 
@@ -816,6 +824,120 @@ impl Tray {
         tray_str.push_str(" h");
 
         tray_str
+    }
+
+    pub fn get_active_piece(&mut self) {
+        for (_, v) in self.tray.0.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+
+        for (_, v) in self.tray.1.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+
+        for (_, v) in self.tray.2.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+
+        for (_, v) in self.tray.3.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+
+        for (_, v) in self.tray.4.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+
+        for (_, v) in self.tray.5.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+
+        for (_, v) in self.tray.6.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+
+        for (_, v) in self.tray.7.iter().enumerate() {
+            match v.piece {
+                Some(p) => {
+                    if ChessPieceKind::is_black_piece(&p) {
+                        self.active_black_piece.push(v.clone())
+                    } else {
+                        self.active_white_piece.push(v.clone())
+                    }
+                }
+                None => (),
+            }
+        }
+    }
+
+    pub fn add_eat_black_piece(&mut self, piece: ChessPieceKind) {
+        self.eat_black_piece.push(piece);
+    }
+
+    pub fn add_eat_white_piece(&mut self, piece: ChessPieceKind) {
+        self.eat_white_piece.push(piece);
     }
 }
 

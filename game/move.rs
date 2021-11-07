@@ -242,3 +242,16 @@ impl ChessMove for Tray {
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use crate::r#move::ChessMove;
+    use crate::tray::Tray;
+
+    #[test]
+    fn test_possible_pawn_move() {
+        let mut tray = Tray::new();
+        tray.build_new_tray();
+        tray.build_default_game_tray();
+    }
+}
