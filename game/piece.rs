@@ -1,16 +1,25 @@
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ChessPieceColor {
     Black,
     White,
 }
 
-#[derive(Debug, Clone)]
+impl ChessPieceColor {
+    pub fn inverse_color(&self) -> ChessPieceColor {
+        match self {
+            Self::Black => Self::White,
+            Self::White => Self::Black,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ChessBishopKind {
     Black,
     White,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ChessPieceKind {
     Pawn(ChessPieceColor),
     Bishop(ChessPieceColor, ChessBishopKind),
@@ -35,6 +44,28 @@ impl ChessPieceKind {
             Self::Rook(ChessPieceColor::White) => "♖",
             Self::Queen(ChessPieceColor::White) => "♕",
             Self::King(ChessPieceColor::White) => "♔",
+        }
+    }
+
+    pub fn chess_piece_to_value(&self) -> usize {
+        match self {
+            Self::Pawn(_) => 1,
+            Self::Bishop(_, _) => 3,
+            Self::Knight(_) => 3,
+            Self::Rook(_) => 5,
+            Self::Queen(_) => 9,
+            Self::King(_) => 0,
+        }
+    }
+
+    pub fn is_edible(&self, color_piece: &ChessPieceColor) -> bool {
+        match self {
+            Self::Pawn(v) if !(v == color_piece) => true,
+            Self::Bishop(v, _) if !(v == color_piece) => true,
+            Self::Knight(v) if !(v == color_piece) => true,
+            Self::Rook(v) if !(v == color_piece) => true,
+            Self::Queen(v) if !(v == color_piece) => true,
+            _ => false,
         }
     }
 }

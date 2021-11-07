@@ -78,6 +78,40 @@ impl ChessMove for Tray {
         }
 
         // eat piece
+        {
+            if column == 0 {
+                let eat = self.get_box(&ChessBoxKind::location_to_box_kind((line, column + 1)));
+
+                match eat.piece {
+                    Some(v) if ChessPieceKind::is_edible(&v, color_kind) => p_move.push(eat),
+                    Some(_) => (),
+                    None => (),
+                }
+            } else if column == 7 {
+                let eat = self.get_box(&ChessBoxKind::location_to_box_kind((line, column - 1)));
+
+                match eat.piece {
+                    Some(v) if ChessPieceKind::is_edible(&v, color_kind) => p_move.push(eat),
+                    Some(_) => (),
+                    None => (),
+                }
+            } else {
+                let eat = vec![
+                    self.get_box(&ChessBoxKind::location_to_box_kind((line, column + 1))),
+                    self.get_box(&ChessBoxKind::location_to_box_kind((line, column - 1))),
+                ];
+
+                for (i, v) in eat.iter().enumerate() {
+                    match v.piece {
+                        Some(v) if ChessPieceKind::is_edible(&v, color_kind) => {
+                            p_move.push(eat[i].clone())
+                        }
+                        Some(_) => (),
+                        None => (),
+                    }
+                }
+            }
+        }
 
         p_move
     }

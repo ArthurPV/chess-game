@@ -821,8 +821,8 @@ impl Tray {
 
 #[cfg(test)]
 mod test {
-    use crate::tray::ChessBoxKind;
     use crate::tray::ChessBoxColor;
+    use crate::tray::ChessBoxKind;
     use crate::tray::Tray;
 
     #[test]
@@ -965,6 +965,5 @@ mod test {
         assert_eq!(tray.tray.7[5].color, ChessBoxColor::Black);
         assert_eq!(tray.tray.7[6].color, ChessBoxColor::White);
         assert_eq!(tray.tray.7[7].color, ChessBoxColor::Black);
-
     }
 }
