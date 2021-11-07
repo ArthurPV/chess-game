@@ -63,19 +63,17 @@ impl ChessMove for Tray {
                         _ => (),
                     }
                 }
-                None => {
-                    match ChessBoxKind::location_to_box_kind((line, column)) {
-                        ChessBoxKind::A2
-                        | ChessBoxKind::B2
-                        | ChessBoxKind::C2
-                        | ChessBoxKind::D2
-                        | ChessBoxKind::E2
-                        | ChessBoxKind::F2
-                        | ChessBoxKind::G2
-                        | ChessBoxKind::H2 => p_move.push(box_above),
-                        _ => (),
-                    }
-                }
+                None => match ChessBoxKind::location_to_box_kind((line, column)) {
+                    ChessBoxKind::A2
+                    | ChessBoxKind::B2
+                    | ChessBoxKind::C2
+                    | ChessBoxKind::D2
+                    | ChessBoxKind::E2
+                    | ChessBoxKind::F2
+                    | ChessBoxKind::G2
+                    | ChessBoxKind::H2 => p_move.push(box_above),
+                    _ => (),
+                },
             }
         }
 

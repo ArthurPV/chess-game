@@ -6,7 +6,7 @@ pub enum ChessBoxColor {
     White,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum ChessBoxKind {
     A1,
     A2,
@@ -816,5 +816,155 @@ impl Tray {
         tray_str.push_str(" h");
 
         tray_str
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use crate::tray::ChessBoxKind;
+    use crate::tray::ChessBoxColor;
+    use crate::tray::Tray;
+
+    #[test]
+    fn test_box_kind() {
+        let mut tray = Tray::new();
+        tray.build_new_tray();
+
+        assert_eq!(tray.tray.0[0].kind, ChessBoxKind::A1);
+        assert_eq!(tray.tray.0[1].kind, ChessBoxKind::B1);
+        assert_eq!(tray.tray.0[2].kind, ChessBoxKind::C1);
+        assert_eq!(tray.tray.0[3].kind, ChessBoxKind::D1);
+        assert_eq!(tray.tray.0[4].kind, ChessBoxKind::E1);
+        assert_eq!(tray.tray.0[5].kind, ChessBoxKind::F1);
+        assert_eq!(tray.tray.0[6].kind, ChessBoxKind::G1);
+        assert_eq!(tray.tray.0[7].kind, ChessBoxKind::H1);
+        assert_eq!(tray.tray.1[0].kind, ChessBoxKind::A2);
+        assert_eq!(tray.tray.1[1].kind, ChessBoxKind::B2);
+        assert_eq!(tray.tray.1[2].kind, ChessBoxKind::C2);
+        assert_eq!(tray.tray.1[3].kind, ChessBoxKind::D2);
+        assert_eq!(tray.tray.1[4].kind, ChessBoxKind::E2);
+        assert_eq!(tray.tray.1[5].kind, ChessBoxKind::F2);
+        assert_eq!(tray.tray.1[6].kind, ChessBoxKind::G2);
+        assert_eq!(tray.tray.1[7].kind, ChessBoxKind::H2);
+        assert_eq!(tray.tray.2[0].kind, ChessBoxKind::A3);
+        assert_eq!(tray.tray.2[1].kind, ChessBoxKind::B3);
+        assert_eq!(tray.tray.2[2].kind, ChessBoxKind::C3);
+        assert_eq!(tray.tray.2[3].kind, ChessBoxKind::D3);
+        assert_eq!(tray.tray.2[4].kind, ChessBoxKind::E3);
+        assert_eq!(tray.tray.2[5].kind, ChessBoxKind::F3);
+        assert_eq!(tray.tray.2[6].kind, ChessBoxKind::G3);
+        assert_eq!(tray.tray.2[7].kind, ChessBoxKind::H3);
+        assert_eq!(tray.tray.3[0].kind, ChessBoxKind::A4);
+        assert_eq!(tray.tray.3[1].kind, ChessBoxKind::B4);
+        assert_eq!(tray.tray.3[2].kind, ChessBoxKind::C4);
+        assert_eq!(tray.tray.3[3].kind, ChessBoxKind::D4);
+        assert_eq!(tray.tray.3[4].kind, ChessBoxKind::E4);
+        assert_eq!(tray.tray.3[5].kind, ChessBoxKind::F4);
+        assert_eq!(tray.tray.3[6].kind, ChessBoxKind::G4);
+        assert_eq!(tray.tray.3[7].kind, ChessBoxKind::H4);
+        assert_eq!(tray.tray.4[0].kind, ChessBoxKind::A5);
+        assert_eq!(tray.tray.4[1].kind, ChessBoxKind::B5);
+        assert_eq!(tray.tray.4[2].kind, ChessBoxKind::C5);
+        assert_eq!(tray.tray.4[3].kind, ChessBoxKind::D5);
+        assert_eq!(tray.tray.4[4].kind, ChessBoxKind::E5);
+        assert_eq!(tray.tray.4[5].kind, ChessBoxKind::F5);
+        assert_eq!(tray.tray.4[6].kind, ChessBoxKind::G5);
+        assert_eq!(tray.tray.4[7].kind, ChessBoxKind::H5);
+        assert_eq!(tray.tray.5[0].kind, ChessBoxKind::A6);
+        assert_eq!(tray.tray.5[1].kind, ChessBoxKind::B6);
+        assert_eq!(tray.tray.5[2].kind, ChessBoxKind::C6);
+        assert_eq!(tray.tray.5[3].kind, ChessBoxKind::D6);
+        assert_eq!(tray.tray.5[4].kind, ChessBoxKind::E6);
+        assert_eq!(tray.tray.5[5].kind, ChessBoxKind::F6);
+        assert_eq!(tray.tray.5[6].kind, ChessBoxKind::G6);
+        assert_eq!(tray.tray.5[7].kind, ChessBoxKind::H6);
+        assert_eq!(tray.tray.6[0].kind, ChessBoxKind::A7);
+        assert_eq!(tray.tray.6[1].kind, ChessBoxKind::B7);
+        assert_eq!(tray.tray.6[2].kind, ChessBoxKind::C7);
+        assert_eq!(tray.tray.6[3].kind, ChessBoxKind::D7);
+        assert_eq!(tray.tray.6[4].kind, ChessBoxKind::E7);
+        assert_eq!(tray.tray.6[5].kind, ChessBoxKind::F7);
+        assert_eq!(tray.tray.6[6].kind, ChessBoxKind::G7);
+        assert_eq!(tray.tray.6[7].kind, ChessBoxKind::H7);
+        assert_eq!(tray.tray.7[0].kind, ChessBoxKind::A8);
+        assert_eq!(tray.tray.7[1].kind, ChessBoxKind::B8);
+        assert_eq!(tray.tray.7[2].kind, ChessBoxKind::C8);
+        assert_eq!(tray.tray.7[3].kind, ChessBoxKind::D8);
+        assert_eq!(tray.tray.7[4].kind, ChessBoxKind::E8);
+        assert_eq!(tray.tray.7[5].kind, ChessBoxKind::F8);
+        assert_eq!(tray.tray.7[6].kind, ChessBoxKind::G8);
+        assert_eq!(tray.tray.7[7].kind, ChessBoxKind::H8);
+    }
+
+    #[test]
+    fn test_box_color() {
+        let mut tray = Tray::new();
+        tray.build_new_tray();
+
+        assert_eq!(tray.tray.0[0].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.0[1].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.0[2].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.0[3].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.0[4].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.0[5].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.0[6].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.0[7].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.1[0].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.1[1].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.1[2].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.1[3].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.1[4].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.1[5].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.1[6].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.1[7].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.2[0].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.2[1].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.2[2].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.2[3].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.2[4].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.2[5].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.2[6].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.2[7].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.3[0].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.3[1].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.3[2].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.3[3].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.3[4].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.3[5].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.3[6].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.3[7].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.4[0].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.4[1].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.4[2].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.4[3].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.4[4].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.4[5].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.4[6].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.4[7].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.5[0].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.5[1].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.5[2].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.5[3].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.5[4].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.5[5].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.5[6].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.5[7].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.6[0].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.6[1].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.6[2].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.6[3].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.6[4].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.6[5].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.6[6].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.6[7].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.7[0].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.7[1].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.7[2].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.7[3].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.7[4].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.7[5].color, ChessBoxColor::Black);
+        assert_eq!(tray.tray.7[6].color, ChessBoxColor::White);
+        assert_eq!(tray.tray.7[7].color, ChessBoxColor::Black);
+
     }
 }
