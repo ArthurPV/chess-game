@@ -63,7 +63,7 @@ impl ChessMove for Tray {
                         _ => (),
                     }
                 }
-                None if color_kind == &ChessPieceColor::White => {
+                None => {
                     match ChessBoxKind::location_to_box_kind((line, column)) {
                         ChessBoxKind::A2
                         | ChessBoxKind::B2
@@ -76,7 +76,6 @@ impl ChessMove for Tray {
                         _ => (),
                     }
                 }
-                None => unreachable!(),
             }
         }
 
