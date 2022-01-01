@@ -326,19 +326,33 @@ impl ChessMove for Tray {
 
         if line + 2 < 8 && column + 1 < 8 {
             knight_move(&self, &mut n_move, color_kind, line + 2, column + 1)
-        } else if line + 2 < 8 && column - 1 >= 0 {
+        }
+
+        if line + 2 < 8 && column - 1 >= 0 {
             knight_move(&self, &mut n_move, color_kind, line + 2, column - 1)
-        } else if line + 1 < 8 && column + 2 < 8 {
+        }
+
+        if line + 1 < 8 && column + 2 < 8 {
             knight_move(&self, &mut n_move, color_kind, line + 1, column + 2)
-        } else if line - 1 >= 0 && column + 2 < 8 {
+        }
+
+        if line - 1 >= 0 && column + 2 < 8 {
             knight_move(&self, &mut n_move, color_kind, line - 1, column + 2)
-        } else if line - 2 >= 0 && column + 1 < 8 {
+        }
+
+        if line - 2 >= 0 && column + 1 < 8 {
             knight_move(&self, &mut n_move, color_kind, line - 2, column + 1)
-        } else if line - 2 >= 0 && column - 1 >= 0 {
+        }
+
+        if line - 2 >= 0 && column - 1 >= 0 {
             knight_move(&self, &mut n_move, color_kind, line - 2, column - 1)
-        } else if line + 1 < 8 && column - 2 >= 0 {
+        }
+
+        if line + 1 < 8 && column - 2 >= 0 {
             knight_move(&self, &mut n_move, color_kind, line + 1, column - 2)
-        } else if line - 1 >= 0 && column - 2 >= 0 {
+        }
+
+        if line - 1 >= 0 && column - 2 >= 0 {
             knight_move(&self, &mut n_move, color_kind, line - 1, column - 2)
         }
 
@@ -509,6 +523,7 @@ impl ChessMove for Tray {
         }
 
         // LIKE BISHOP MOVE
+
         for i in 1..7 {
             if line + i < 8 && column + i < 8 {
                 if queen_move(&self, &mut q_move, color_kind, line + i, column + i) {
@@ -549,7 +564,82 @@ impl ChessMove for Tray {
         box_kind: &ChessBoxKind,
         color_kind: &ChessPieceColor,
     ) -> Vec<ChessTurnAction> {
-        todo!()
+        let mut k_move = vec![];
+
+        let line = ChessBoxKind::get_line_code(box_kind);
+        let column = ChessBoxKind::get_column_code(box_kind);
+
+        fn king_move(
+            tray: &Tray,
+            k_move: &mut Vec<ChessTurnAction>,
+            color_kind: &ChessPieceColor,
+            line: usize,
+            column: usize,
+        ) {
+            let m = tray.get_box(&ChessBoxKind::location_to_box_kind((line, column)));
+
+            match m.piece {
+                Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                    ChessPieceKind::King(_) => {
+                        k_move.push(ChessTurnAction::new_check(
+                            ChessPieceKind::King(*color_kind),
+                            m,
+                        ));
+                    }
+                    _ => {
+                        k_move.push(ChessTurnAction::new_eat(
+                            ChessPieceKind::King(*color_kind),
+                            m,
+                        ));
+                    }
+                },
+                Some(_) => (),
+                None => {
+                    k_move.push(ChessTurnAction::new_move(
+                        ChessPieceKind::King(*color_kind),
+                        m,
+                    ));
+                }
+            }
+        }
+
+        // LIKE ROOK MOVE
+
+        if line + 1 < 8 {
+            king_move(&self, &mut k_move, color_kind, line + 1, column)
+        }
+
+        if line - 1 >= 0 {
+            king_move(&self, &mut k_move, color_kind, line - 1, column)
+        }
+
+        if column + 1 < 8 {
+            king_move(&self, &mut k_move, color_kind, line, column + 1)
+        }
+
+        if column - 1 >= 0 {
+            king_move(&self, &mut k_move, color_kind, line, column - 1)
+        }
+
+        // LIKE BISHOP MOVE
+
+        if line + 1 < 8 && column + 1 < 8 {
+            king_move(&self, &mut k_move, color_kind, line + 1, column + 1)
+        }
+
+        if line + 1 < 8 && column - 1 >= 0 {
+            king_move(&self, &mut k_move, color_kind, line + 1, column - 1)
+        }
+
+        if line - 1 >= 0 && column + 1 < 8 {
+            king_move(&self, &mut k_move, color_kind, line - 1, column + 1)
+        }
+
+        if line - 1 >= 0 && column - 1 >= 0 {
+            king_move(&self, &mut k_move, color_kind, line - 1, column - 1)
+        }
+
+        k_move
     }
 
     fn chess_modify_box(&mut self, box_kind: &ChessBoxKind, piece: Option<ChessPieceKind>) {
