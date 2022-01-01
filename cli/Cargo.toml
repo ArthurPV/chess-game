@@ -9,3 +9,4 @@ path = "main.rs"
 
 [dependencies]
 chess_game = { path = "../game", version = "0.1.0" }
+rustyline = "9.0.0"

@@ -17,10 +17,15 @@ impl ChessPlayer {
     }
 }
 
+pub enum CastleKind {
+    Kingside,
+    Queenside,
+}
+
 pub enum ChessTurnAction {
-    Move(ChessPieceKind, ChessBox), // piece move and where he move
+    Move(ChessPieceKind, ChessBox), // piece move and where it move
     Eat(ChessPieceKind, ChessBox),
-    Rook(ChessPieceKind, ChessBox),
+    Castle(CastleKind, ChessBox),
     Check(ChessPieceKind, ChessBox),
     Checkmate(ChessPieceKind, ChessBox),
 }
@@ -34,8 +39,8 @@ impl ChessTurnAction {
         ChessTurnAction::Eat(piece_kind, box_kind)
     }
 
-    pub fn new_rook(piece_kind: ChessPieceKind, box_kind: ChessBox) -> ChessTurnAction {
-        ChessTurnAction::Rook(piece_kind, box_kind)
+    pub fn new_rook(castle_kind: CastleKind, box_kind: ChessBox) -> ChessTurnAction {
+        ChessTurnAction::Castle(castle_kind, box_kind)
     }
 
     pub fn new_check(piece_kind: ChessPieceKind, box_kind: ChessBox) -> ChessTurnAction {

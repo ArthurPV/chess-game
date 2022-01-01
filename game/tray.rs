@@ -1,4 +1,5 @@
-use crate::piece::*;
+use crate::{piece::*, ChessPlayer};
+use colored::*;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum ChessBoxColor {
@@ -743,6 +744,76 @@ impl Tray {
         }
     }
 
+    pub fn box_str_to_box(&self, box_str: &str) -> ChessBox {
+        match box_str {
+            "a1" => self.get_box(&ChessBoxKind::A1),
+            "b1" => self.get_box(&ChessBoxKind::B1),
+            "c1" => self.get_box(&ChessBoxKind::C1),
+            "d1" => self.get_box(&ChessBoxKind::D1),
+            "e1" => self.get_box(&ChessBoxKind::E1),
+            "f1" => self.get_box(&ChessBoxKind::F1),
+            "g1" => self.get_box(&ChessBoxKind::G1),
+            "h1" => self.get_box(&ChessBoxKind::H1),
+            "a2" => self.get_box(&ChessBoxKind::A2),
+            "b2" => self.get_box(&ChessBoxKind::B2),
+            "c2" => self.get_box(&ChessBoxKind::C2),
+            "d2" => self.get_box(&ChessBoxKind::D2),
+            "e2" => self.get_box(&ChessBoxKind::E2),
+            "f2" => self.get_box(&ChessBoxKind::F2),
+            "g2" => self.get_box(&ChessBoxKind::G2),
+            "h2" => self.get_box(&ChessBoxKind::H2),
+            "a3" => self.get_box(&ChessBoxKind::A3),
+            "b3" => self.get_box(&ChessBoxKind::B3),
+            "c3" => self.get_box(&ChessBoxKind::C3),
+            "d3" => self.get_box(&ChessBoxKind::D3),
+            "e3" => self.get_box(&ChessBoxKind::E3),
+            "f3" => self.get_box(&ChessBoxKind::F3),
+            "g3" => self.get_box(&ChessBoxKind::G3),
+            "h3" => self.get_box(&ChessBoxKind::H3),
+            "a4" => self.get_box(&ChessBoxKind::A4),
+            "b4" => self.get_box(&ChessBoxKind::B4),
+            "c4" => self.get_box(&ChessBoxKind::C4),
+            "d4" => self.get_box(&ChessBoxKind::D4),
+            "e4" => self.get_box(&ChessBoxKind::E4),
+            "f4" => self.get_box(&ChessBoxKind::F4),
+            "g4" => self.get_box(&ChessBoxKind::G4),
+            "h4" => self.get_box(&ChessBoxKind::H4),
+            "a5" => self.get_box(&ChessBoxKind::A5),
+            "b5" => self.get_box(&ChessBoxKind::B5),
+            "c5" => self.get_box(&ChessBoxKind::C5),
+            "d5" => self.get_box(&ChessBoxKind::D5),
+            "e5" => self.get_box(&ChessBoxKind::E5),
+            "f5" => self.get_box(&ChessBoxKind::F5),
+            "g5" => self.get_box(&ChessBoxKind::G5),
+            "h5" => self.get_box(&ChessBoxKind::H5),
+            "a6" => self.get_box(&ChessBoxKind::A6),
+            "b6" => self.get_box(&ChessBoxKind::B6),
+            "c6" => self.get_box(&ChessBoxKind::C6),
+            "d6" => self.get_box(&ChessBoxKind::D6),
+            "e6" => self.get_box(&ChessBoxKind::E6),
+            "f6" => self.get_box(&ChessBoxKind::F6),
+            "g6" => self.get_box(&ChessBoxKind::G6),
+            "h6" => self.get_box(&ChessBoxKind::H6),
+            "a7" => self.get_box(&ChessBoxKind::A7),
+            "b7" => self.get_box(&ChessBoxKind::B7),
+            "c7" => self.get_box(&ChessBoxKind::C7),
+            "d7" => self.get_box(&ChessBoxKind::D7),
+            "e7" => self.get_box(&ChessBoxKind::E7),
+            "f7" => self.get_box(&ChessBoxKind::F7),
+            "g7" => self.get_box(&ChessBoxKind::G7),
+            "h7" => self.get_box(&ChessBoxKind::H7),
+            "a8" => self.get_box(&ChessBoxKind::A8),
+            "b8" => self.get_box(&ChessBoxKind::B8),
+            "c8" => self.get_box(&ChessBoxKind::C8),
+            "d8" => self.get_box(&ChessBoxKind::D8),
+            "e8" => self.get_box(&ChessBoxKind::E8),
+            "f8" => self.get_box(&ChessBoxKind::F8),
+            "g8" => self.get_box(&ChessBoxKind::G8),
+            "h8" => self.get_box(&ChessBoxKind::H8),
+            _ => unreachable!(),
+        }
+    }
+
     pub fn get_box_str(
         &self,
         chess_piece: &Option<ChessPieceKind>,
@@ -750,7 +821,7 @@ impl Tray {
     ) -> String {
         match chess_piece {
             Some(p) => ChessPieceKind::chess_piece_to_unicode(&p).to_string(),
-            None if color_box == &ChessBoxColor::Black => "\x1b[32m.\x1b[0m".to_string(),
+            None if color_box == &ChessBoxColor::Black => format!("{}", ".".green()),
             None => ".".to_string(),
         }
     }
@@ -824,6 +895,14 @@ impl Tray {
         tray_str.push_str(" h");
 
         tray_str
+    }
+
+    pub fn print_tray(&self, color: ChessPieceColor) {
+        if ChessPieceColor::Black == color {
+            println!("{}", self.render_tray_to_string()); // TODO: reverse the tray when player play with black piece
+        } else {
+            println!("{}", self.render_tray_to_string());
+        }
     }
 
     pub fn get_active_piece(&mut self) {

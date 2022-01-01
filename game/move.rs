@@ -4,18 +4,40 @@ use crate::tray::ChessBox;
 use crate::tray::ChessBoxKind;
 use crate::tray::Tray;
 use crate::turn::ChessTurnAction;
+use crate::ChessBishopKind;
 
 pub trait ChessMove {
     fn chess_possible_pawn_move(
-        &mut self,
+        &self,
         box_kind: &ChessBoxKind,
         color_kind: &ChessPieceColor,
     ) -> Vec<ChessTurnAction>;
-    fn chess_possible_bishop_move(&self) -> Vec<ChessTurnAction>;
-    fn chess_possible_knight_move(&self) -> Vec<ChessTurnAction>;
-    fn chess_possible_rook_move(&self) -> Vec<ChessTurnAction>;
-    fn chess_possible_queen_move(&self) -> Vec<ChessTurnAction>;
-    fn chess_possible_king_move(&self) -> Vec<ChessTurnAction>;
+    fn chess_possible_bishop_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+        bishop_kind: &ChessBishopKind,
+    ) -> Vec<ChessTurnAction>;
+    fn chess_possible_knight_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction>;
+    fn chess_possible_rook_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction>;
+    fn chess_possible_queen_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction>;
+    fn chess_possible_king_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction>;
     fn chess_modify_box(&mut self, box_kind: &ChessBoxKind, piece: Option<ChessPieceKind>);
     fn chess_possible_move(
         &mut self,
@@ -26,7 +48,7 @@ pub trait ChessMove {
 
 impl ChessMove for Tray {
     fn chess_possible_pawn_move(
-        &mut self,
+        &self,
         box_kind: &ChessBoxKind,
         color_kind: &ChessPieceColor,
     ) -> Vec<ChessTurnAction> {
@@ -93,9 +115,16 @@ impl ChessMove for Tray {
                 let eat = self.get_box(&ChessBoxKind::location_to_box_kind((line, column + 1)));
 
                 match eat.piece {
-                    Some(v) if ChessPieceKind::is_edible(&v, color_kind) => p_move.push(
-                        ChessTurnAction::new_eat(ChessPieceKind::Pawn(*color_kind), eat),
-                    ),
+                    Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                        ChessPieceKind::King(_) => p_move.push(ChessTurnAction::new_check(
+                            ChessPieceKind::Pawn(*color_kind),
+                            eat,
+                        )),
+                        _ => p_move.push(ChessTurnAction::new_eat(
+                            ChessPieceKind::Pawn(*color_kind),
+                            eat,
+                        )),
+                    },
                     Some(_) => (),
                     None => (),
                 }
@@ -103,9 +132,16 @@ impl ChessMove for Tray {
                 let eat = self.get_box(&ChessBoxKind::location_to_box_kind((line, column - 1)));
 
                 match eat.piece {
-                    Some(v) if ChessPieceKind::is_edible(&v, color_kind) => p_move.push(
-                        ChessTurnAction::new_eat(ChessPieceKind::Pawn(*color_kind), eat),
-                    ),
+                    Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                        ChessPieceKind::King(_) => p_move.push(ChessTurnAction::new_check(
+                            ChessPieceKind::Pawn(*color_kind),
+                            eat,
+                        )),
+                        _ => p_move.push(ChessTurnAction::new_eat(
+                            ChessPieceKind::Pawn(*color_kind),
+                            eat,
+                        )),
+                    },
                     Some(_) => (),
                     None => (),
                 }
@@ -117,9 +153,16 @@ impl ChessMove for Tray {
 
                 for (i, v) in eat.iter().enumerate() {
                     match v.piece {
-                        Some(v) if ChessPieceKind::is_edible(&v, color_kind) => {
-                            p_move.push(ChessTurnAction::new_eat(ChessPieceKind::Pawn(*color_kind), eat[i].clone()))
-                        }
+                        Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                            ChessPieceKind::King(_) => p_move.push(ChessTurnAction::new_check(
+                                ChessPieceKind::Pawn(*color_kind),
+                                eat[i].clone(),
+                            )),
+                            _ => p_move.push(ChessTurnAction::new_eat(
+                                ChessPieceKind::Pawn(*color_kind),
+                                eat[i].clone(),
+                            )),
+                        },
                         Some(_) => (),
                         None => (),
                     }
@@ -130,23 +173,382 @@ impl ChessMove for Tray {
         p_move
     }
 
-    fn chess_possible_bishop_move(&self) -> Vec<ChessTurnAction> {
-        todo!()
+    fn chess_possible_bishop_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+        bishop_kind: &ChessBishopKind,
+    ) -> Vec<ChessTurnAction> {
+        let mut b_move = vec![];
+
+        let line = ChessBoxKind::get_line_code(box_kind);
+        let column = ChessBoxKind::get_column_code(box_kind);
+
+        fn bishop_move(
+            tray: &Tray,
+            b_move: &mut Vec<ChessTurnAction>,
+            color_kind: &ChessPieceColor,
+            bishop_kind: &ChessBishopKind,
+            line: usize,
+            column: usize,
+        ) -> bool {
+            let m = tray.get_box(&ChessBoxKind::location_to_box_kind((line, column)));
+
+            match m.piece {
+                Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                    ChessPieceKind::King(_) => {
+                        b_move.push(ChessTurnAction::new_check(
+                            ChessPieceKind::Bishop(*color_kind, *bishop_kind),
+                            m,
+                        ));
+                        true
+                    }
+                    _ => {
+                        b_move.push(ChessTurnAction::new_eat(
+                            ChessPieceKind::Bishop(*color_kind, *bishop_kind),
+                            m,
+                        ));
+                        true
+                    }
+                },
+                Some(_) => true,
+                None => {
+                    b_move.push(ChessTurnAction::new_move(
+                        ChessPieceKind::Bishop(*color_kind, *bishop_kind),
+                        m,
+                    ));
+                    false
+                }
+            }
+        }
+
+        // GET MOVE
+        for i in 1..7 {
+            if line + i < 8 && column + i < 8 {
+                if bishop_move(
+                    &self,
+                    &mut b_move,
+                    color_kind,
+                    bishop_kind,
+                    line + i,
+                    column + i,
+                ) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line + i < 8 && column - i >= 0 {
+                if bishop_move(
+                    &self,
+                    &mut b_move,
+                    color_kind,
+                    bishop_kind,
+                    line + i,
+                    column - i,
+                ) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line - i >= 0 && column + i < 8 {
+                if bishop_move(
+                    &self,
+                    &mut b_move,
+                    color_kind,
+                    bishop_kind,
+                    line - i,
+                    column + i,
+                ) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line - i > 0 && column - i >= 0 {
+                if bishop_move(
+                    &self,
+                    &mut b_move,
+                    color_kind,
+                    bishop_kind,
+                    line - i,
+                    column - i,
+                ) {
+                    break;
+                }
+            }
+        }
+
+        b_move
     }
 
-    fn chess_possible_knight_move(&self) -> Vec<ChessTurnAction> {
-        todo!()
+    fn chess_possible_knight_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction> {
+        let mut n_move = vec![];
+
+        let line = ChessBoxKind::get_line_code(box_kind);
+        let column = ChessBoxKind::get_column_code(box_kind);
+
+        fn knight_move(
+            tray: &Tray,
+            n_move: &mut Vec<ChessTurnAction>,
+            color_kind: &ChessPieceColor,
+            line: usize,
+            column: usize,
+        ) {
+            let m = tray.get_box(&ChessBoxKind::location_to_box_kind((line, column)));
+
+            match m.piece {
+                Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                    ChessPieceKind::King(_) => n_move.push(ChessTurnAction::new_check(
+                        ChessPieceKind::Knight(*color_kind),
+                        m,
+                    )),
+                    _ => n_move.push(ChessTurnAction::new_eat(
+                        ChessPieceKind::Knight(*color_kind),
+                        m,
+                    )),
+                },
+                Some(_) => (),
+                None => n_move.push(ChessTurnAction::new_move(
+                    ChessPieceKind::Knight(*color_kind),
+                    m,
+                )),
+            }
+        }
+
+        if line + 2 < 8 && column + 1 < 8 {
+            knight_move(&self, &mut n_move, color_kind, line + 2, column + 1)
+        } else if line + 2 < 8 && column - 1 >= 0 {
+            knight_move(&self, &mut n_move, color_kind, line + 2, column - 1)
+        } else if line + 1 < 8 && column + 2 < 8 {
+            knight_move(&self, &mut n_move, color_kind, line + 1, column + 2)
+        } else if line - 1 >= 0 && column + 2 < 8 {
+            knight_move(&self, &mut n_move, color_kind, line - 1, column + 2)
+        } else if line - 2 >= 0 && column + 1 < 8 {
+            knight_move(&self, &mut n_move, color_kind, line - 2, column + 1)
+        } else if line - 2 >= 0 && column - 1 >= 0 {
+            knight_move(&self, &mut n_move, color_kind, line - 2, column - 1)
+        } else if line + 1 < 8 && column - 2 >= 0 {
+            knight_move(&self, &mut n_move, color_kind, line + 1, column - 2)
+        } else if line - 1 >= 0 && column - 2 >= 0 {
+            knight_move(&self, &mut n_move, color_kind, line - 1, column - 2)
+        }
+
+        n_move
     }
 
-    fn chess_possible_rook_move(&self) -> Vec<ChessTurnAction> {
-        todo!()
+    fn chess_possible_rook_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction> {
+        let mut r_move = vec![];
+
+        let line = ChessBoxKind::get_line_code(box_kind);
+        let column = ChessBoxKind::get_column_code(box_kind);
+
+        fn rook_move(
+            tray: &Tray,
+            r_move: &mut Vec<ChessTurnAction>,
+            color_kind: &ChessPieceColor,
+            line: usize,
+            column: usize,
+        ) -> bool {
+            let m = tray.get_box(&ChessBoxKind::location_to_box_kind((line, column)));
+
+            match m.piece {
+                Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                    ChessPieceKind::King(_) => {
+                        r_move.push(ChessTurnAction::new_check(
+                            ChessPieceKind::Rook(*color_kind),
+                            m,
+                        ));
+                        true
+                    }
+                    _ => {
+                        r_move.push(ChessTurnAction::new_eat(
+                            ChessPieceKind::Rook(*color_kind),
+                            m,
+                        ));
+                        true
+                    }
+                },
+                Some(_) => true,
+                None => {
+                    r_move.push(ChessTurnAction::new_move(
+                        ChessPieceKind::Rook(*color_kind),
+                        m,
+                    ));
+                    false
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line + i < 8 {
+                if rook_move(&self, &mut r_move, color_kind, line + i, column) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line - i >= 0 {
+                if rook_move(&self, &mut r_move, color_kind, line - i, column) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if column + i < 8 {
+                if rook_move(&self, &mut r_move, color_kind, line, column + i) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if column - i >= 0 {
+                if rook_move(&self, &mut r_move, color_kind, line, column - i) {
+                    break;
+                }
+            }
+        }
+
+        r_move
     }
 
-    fn chess_possible_queen_move(&self) -> Vec<ChessTurnAction> {
-        todo!()
+    fn chess_possible_queen_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction> {
+        let mut q_move = vec![];
+
+        let line = ChessBoxKind::get_line_code(box_kind);
+        let column = ChessBoxKind::get_column_code(box_kind);
+
+        fn queen_move(
+            tray: &Tray,
+            q_move: &mut Vec<ChessTurnAction>,
+            color_kind: &ChessPieceColor,
+            line: usize,
+            column: usize,
+        ) -> bool {
+            let m = tray.get_box(&ChessBoxKind::location_to_box_kind((line, column)));
+
+            match m.piece {
+                Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
+                    ChessPieceKind::King(_) => {
+                        q_move.push(ChessTurnAction::new_check(
+                            ChessPieceKind::Queen(*color_kind),
+                            m,
+                        ));
+                        true
+                    }
+                    _ => {
+                        q_move.push(ChessTurnAction::new_eat(
+                            ChessPieceKind::Queen(*color_kind),
+                            m,
+                        ));
+                        true
+                    }
+                },
+                Some(_) => true,
+                None => {
+                    q_move.push(ChessTurnAction::new_move(
+                        ChessPieceKind::Queen(*color_kind),
+                        m,
+                    ));
+                    false
+                }
+            }
+        }
+
+        // LIKE ROOK MOVE
+
+        for i in 1..7 {
+            if line + i < 8 {
+                if queen_move(&self, &mut q_move, color_kind, line + i, column) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line - i < 8 {
+                if queen_move(&self, &mut q_move, color_kind, line - i, column) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if column + i < 8 {
+                if queen_move(&self, &mut q_move, color_kind, line, column + i) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if column - i < 8 {
+                if queen_move(&self, &mut q_move, color_kind, line, column - i) {
+                    break;
+                }
+            }
+        }
+
+        // LIKE BISHOP MOVE
+        for i in 1..7 {
+            if line + i < 8 && column + i < 8 {
+                if queen_move(&self, &mut q_move, color_kind, line + i, column + i) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line + i < 8 && column - i >= 0 {
+                if queen_move(&self, &mut q_move, color_kind, line + i, column - i) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line - i >= 0 && column + i < 8 {
+                if queen_move(&self, &mut q_move, color_kind, line - i, column + i) {
+                    break;
+                }
+            }
+        }
+
+        for i in 1..7 {
+            if line - i > 0 && column - i >= 0 {
+                if queen_move(&self, &mut q_move, color_kind, line - i, column - i) {
+                    break;
+                }
+            }
+        }
+
+        q_move
     }
 
-    fn chess_possible_king_move(&self) -> Vec<ChessTurnAction> {
+    fn chess_possible_king_move(
+        &self,
+        box_kind: &ChessBoxKind,
+        color_kind: &ChessPieceColor,
+    ) -> Vec<ChessTurnAction> {
         todo!()
     }
 
@@ -242,17 +644,12 @@ impl ChessMove for Tray {
         box_kind: ChessBoxKind,
     ) -> Vec<ChessTurnAction> {
         match piece_kind {
-            ChessPieceKind::Pawn(ChessPieceColor::Black) => {
-                self.chess_possible_pawn_move(&box_kind, &ChessPieceColor::Black)
-            }
-            ChessPieceKind::Pawn(ChessPieceColor::White) => {
-                self.chess_possible_pawn_move(&box_kind, &ChessPieceColor::White)
-            }
-            ChessPieceKind::Bishop(_, _) => self.chess_possible_bishop_move(),
-            ChessPieceKind::Knight(_) => self.chess_possible_knight_move(),
-            ChessPieceKind::Rook(_) => self.chess_possible_rook_move(),
-            ChessPieceKind::Queen(_) => self.chess_possible_queen_move(),
-            ChessPieceKind::King(_) => self.chess_possible_king_move(),
+            ChessPieceKind::Pawn(c) => self.chess_possible_pawn_move(&box_kind, &c),
+            ChessPieceKind::Bishop(c, b) => self.chess_possible_bishop_move(&box_kind, &c, &b),
+            ChessPieceKind::Knight(c) => self.chess_possible_knight_move(&box_kind, &c),
+            ChessPieceKind::Rook(c) => self.chess_possible_rook_move(&box_kind, &c),
+            ChessPieceKind::Queen(c) => self.chess_possible_queen_move(&box_kind, &c),
+            ChessPieceKind::King(c) => self.chess_possible_king_move(&box_kind, &c),
         }
     }
 }

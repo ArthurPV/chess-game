@@ -11,6 +11,14 @@ impl ChessPieceColor {
             Self::White => Self::Black,
         }
     }
+
+    pub fn str_to_piece_color(s: &str) -> ChessPieceColor {
+        match s {
+            "b" | "black" => ChessPieceColor::Black,
+            "w" | "white" => ChessPieceColor::White,
+            _ => unreachable!(),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -65,6 +73,7 @@ impl ChessPieceKind {
             Self::Knight(v) if !(v == color_piece) => true,
             Self::Rook(v) if !(v == color_piece) => true,
             Self::Queen(v) if !(v == color_piece) => true,
+            Self::King(v) if !(v == color_piece) => true, // but return check when get ChessTurnAction
             _ => false,
         }
     }
