@@ -17,11 +17,13 @@ impl ChessPlayer {
     }
 }
 
+#[derive(Debug)]
 pub enum CastleKind {
     Kingside,
     Queenside,
 }
 
+#[derive(Debug)]
 pub enum ChessTurnAction {
     Move(ChessPieceKind, ChessBox), // piece move and where it move
     Eat(ChessPieceKind, ChessBox),

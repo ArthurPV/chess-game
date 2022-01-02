@@ -224,7 +224,7 @@ impl ChessMove for Tray {
 
         // GET MOVE
         for i in 1..7 {
-            if line + i < 8 && column + i < 8 {
+            if line + i <= 8 && column + i <= 8 {
                 if bishop_move(
                     &self,
                     &mut b_move,
@@ -235,11 +235,13 @@ impl ChessMove for Tray {
                 ) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line + i < 8 && column - i >= 0 {
+            if line + i <= 8 && (column - i) as isize >= 1 {
                 if bishop_move(
                     &self,
                     &mut b_move,
@@ -250,11 +252,13 @@ impl ChessMove for Tray {
                 ) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line - i >= 0 && column + i < 8 {
+            if (line - i) as isize >= 1 && column + i <= 8 {
                 if bishop_move(
                     &self,
                     &mut b_move,
@@ -265,11 +269,13 @@ impl ChessMove for Tray {
                 ) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line - i > 0 && column - i >= 0 {
+            if (line - i) as isize >= 1 && (column - i) as isize >= 1 {
                 if bishop_move(
                     &self,
                     &mut b_move,
@@ -280,6 +286,8 @@ impl ChessMove for Tray {
                 ) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
@@ -324,35 +332,52 @@ impl ChessMove for Tray {
             }
         }
 
-        if line + 2 < 8 && column + 1 < 8 {
+        /*println!("LINE {}, COLUMN {}", line + 2, column + 1);
+        println!("LINE {}, COLUMN {}", line + 2, (column - 1) as isize);
+        println!("LINE {}, COLUMN {}", line + 1, column + 2);
+        println!("LINE {}, COLUMN {}", (line - 1) as isize, column + 2);
+        println!("LINE {}, COLUMN {}", (line - 2) as isize, column + 1);
+        println!(
+            "LINE {}, COLUMN {}",
+            (line - 2) as isize,
+            (column - 1) as isize
+        );
+        println!("LINE {}, COLUMN {}", line + 1, (column - 2) as isize);
+        println!(
+            "LINE {}, COLUMN {}",
+            (line - 1) as isize,
+            (column - 2) as isize
+        );*/
+
+        if line + 2 <= 8 && column + 1 <= 8 {
             knight_move(&self, &mut n_move, color_kind, line + 2, column + 1)
         }
 
-        if line + 2 < 8 && column - 1 >= 0 {
+        if line + 2 <= 8 && (column - 1) as isize >= 1 {
             knight_move(&self, &mut n_move, color_kind, line + 2, column - 1)
         }
 
-        if line + 1 < 8 && column + 2 < 8 {
+        if line + 1 <= 8 && column + 2 <= 8 {
             knight_move(&self, &mut n_move, color_kind, line + 1, column + 2)
         }
 
-        if line - 1 >= 0 && column + 2 < 8 {
+        if (line - 1) as isize >= 1 && column + 2 <= 8 {
             knight_move(&self, &mut n_move, color_kind, line - 1, column + 2)
         }
 
-        if line - 2 >= 0 && column + 1 < 8 {
+        if (line - 2) as isize >= 1 && column + 1 <= 8 {
             knight_move(&self, &mut n_move, color_kind, line - 2, column + 1)
         }
 
-        if line - 2 >= 0 && column - 1 >= 0 {
+        if (line - 2) as isize >= 1 && (column - 1) as isize >= 1 {
             knight_move(&self, &mut n_move, color_kind, line - 2, column - 1)
         }
 
-        if line + 1 < 8 && column - 2 >= 0 {
+        if line + 1 <= 8 && (column - 2) as isize >= 1 {
             knight_move(&self, &mut n_move, color_kind, line + 1, column - 2)
         }
 
-        if line - 1 >= 0 && column - 2 >= 0 {
+        if (line - 1) as isize >= 1 && (column - 2) as isize >= 1 {
             knight_move(&self, &mut n_move, color_kind, line - 1, column - 2)
         }
 
@@ -407,34 +432,42 @@ impl ChessMove for Tray {
         }
 
         for i in 1..7 {
-            if line + i < 8 {
+            if line + i <= 8 {
                 if rook_move(&self, &mut r_move, color_kind, line + i, column) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line - i >= 0 {
+            if (line - i) as isize >= 1 {
                 if rook_move(&self, &mut r_move, color_kind, line - i, column) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if column + i < 8 {
+            if column + i <= 8 {
                 if rook_move(&self, &mut r_move, color_kind, line, column + i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if column - i >= 0 {
+            if (column - i) as isize >= 1 {
                 if rook_move(&self, &mut r_move, color_kind, line, column - i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
@@ -491,68 +524,84 @@ impl ChessMove for Tray {
         // LIKE ROOK MOVE
 
         for i in 1..7 {
-            if line + i < 8 {
+            if line + i <= 8 {
                 if queen_move(&self, &mut q_move, color_kind, line + i, column) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line - i < 8 {
+            if (line - i) as isize >= 1 {
                 if queen_move(&self, &mut q_move, color_kind, line - i, column) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if column + i < 8 {
+            if column + i <= 8 {
                 if queen_move(&self, &mut q_move, color_kind, line, column + i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if column - i < 8 {
+            if (column - i) as isize >= 1 {
                 if queen_move(&self, &mut q_move, color_kind, line, column - i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         // LIKE BISHOP MOVE
 
         for i in 1..7 {
-            if line + i < 8 && column + i < 8 {
+            if line + i <= 8 && column + i <= 8 {
                 if queen_move(&self, &mut q_move, color_kind, line + i, column + i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line + i < 8 && column - i >= 0 {
+            if line + i <= 8 && (column - i) as isize >= 1 {
                 if queen_move(&self, &mut q_move, color_kind, line + i, column - i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line - i >= 0 && column + i < 8 {
+            if (line - i) as isize >= 1 && column + i <= 8 {
                 if queen_move(&self, &mut q_move, color_kind, line - i, column + i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
         for i in 1..7 {
-            if line - i > 0 && column - i >= 0 {
+            if (line - i) as isize >= 1 && (column - i) as isize <= 1 {
                 if queen_move(&self, &mut q_move, color_kind, line - i, column - i) {
                     break;
                 }
+            } else {
+                break;
             }
         }
 
@@ -605,37 +654,37 @@ impl ChessMove for Tray {
 
         // LIKE ROOK MOVE
 
-        if line + 1 < 8 {
+        if line + 1 <= 8 {
             king_move(&self, &mut k_move, color_kind, line + 1, column)
         }
 
-        if line - 1 >= 0 {
+        if (line - 1) as isize >= 1 {
             king_move(&self, &mut k_move, color_kind, line - 1, column)
         }
 
-        if column + 1 < 8 {
+        if column + 1 <= 8 {
             king_move(&self, &mut k_move, color_kind, line, column + 1)
         }
 
-        if column - 1 >= 0 {
+        if (column - 1) as isize >= 1 {
             king_move(&self, &mut k_move, color_kind, line, column - 1)
         }
 
         // LIKE BISHOP MOVE
 
-        if line + 1 < 8 && column + 1 < 8 {
+        if line + 1 <= 8 && column + 1 <= 8 {
             king_move(&self, &mut k_move, color_kind, line + 1, column + 1)
         }
 
-        if line + 1 < 8 && column - 1 >= 0 {
+        if line + 1 <= 8 && (column - 1) as isize >= 1 {
             king_move(&self, &mut k_move, color_kind, line + 1, column - 1)
         }
 
-        if line - 1 >= 0 && column + 1 < 8 {
+        if (line - 1) as isize >= 1 && column + 1 <= 8 {
             king_move(&self, &mut k_move, color_kind, line - 1, column + 1)
         }
 
-        if line - 1 >= 0 && column - 1 >= 0 {
+        if (line - 1) as isize >= 1 && (column - 1) as isize >= 1 {
             king_move(&self, &mut k_move, color_kind, line - 1, column - 1)
         }
 
@@ -652,7 +701,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F1
             | &ChessBoxKind::G1
             | &ChessBoxKind::H1 => {
-                self.tray.0[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.0[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::A2
             | &ChessBoxKind::B2
@@ -662,7 +711,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F2
             | &ChessBoxKind::G2
             | &ChessBoxKind::H2 => {
-                self.tray.1[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.1[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::A3
             | &ChessBoxKind::B3
@@ -672,7 +721,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F3
             | &ChessBoxKind::G3
             | &ChessBoxKind::H3 => {
-                self.tray.2[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.2[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::A4
             | &ChessBoxKind::B4
@@ -682,7 +731,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F4
             | &ChessBoxKind::G4
             | &ChessBoxKind::H4 => {
-                self.tray.3[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.3[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::A5
             | &ChessBoxKind::B5
@@ -692,7 +741,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F5
             | &ChessBoxKind::G5
             | &ChessBoxKind::H5 => {
-                self.tray.4[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.4[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::A6
             | &ChessBoxKind::B6
@@ -702,7 +751,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F6
             | &ChessBoxKind::G6
             | &ChessBoxKind::H6 => {
-                self.tray.5[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.5[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::A7
             | &ChessBoxKind::B7
@@ -712,7 +761,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F7
             | &ChessBoxKind::G7
             | &ChessBoxKind::H7 => {
-                self.tray.6[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.6[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::A8
             | &ChessBoxKind::B8
@@ -722,7 +771,7 @@ impl ChessMove for Tray {
             | &ChessBoxKind::F8
             | &ChessBoxKind::G8
             | &ChessBoxKind::H8 => {
-                self.tray.7[ChessBoxKind::get_column_code(box_kind)].piece = piece
+                self.tray.7[ChessBoxKind::get_column_code(box_kind) - 1].piece = piece
             }
             &ChessBoxKind::Unknown => (),
         }

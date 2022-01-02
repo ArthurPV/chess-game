@@ -79,140 +79,140 @@ pub enum ChessBoxKind {
 impl ChessBoxKind {
     pub fn get_column_code(&self) -> usize {
         match &self {
-            Self::A1
-            | Self::A2
-            | Self::A3
-            | Self::A4
-            | Self::A5
-            | Self::A6
-            | Self::A7
-            | Self::A8 => 0,
-            Self::B1
-            | Self::B2
-            | Self::B3
-            | Self::B4
-            | Self::B5
-            | Self::B6
-            | Self::B7
-            | Self::B8 => 1,
-            Self::C1
-            | Self::C2
-            | Self::C3
-            | Self::C4
-            | Self::C5
-            | Self::C6
-            | Self::C7
-            | Self::C8 => 2,
-            Self::D1
-            | Self::D2
-            | Self::D3
-            | Self::D4
-            | Self::D5
-            | Self::D6
-            | Self::D7
-            | Self::D8 => 3,
-            Self::E1
-            | Self::E2
-            | Self::E3
-            | Self::E4
-            | Self::E5
-            | Self::E6
-            | Self::E7
-            | Self::E8 => 4,
-            Self::F1
-            | Self::F2
-            | Self::F3
-            | Self::F4
-            | Self::F5
-            | Self::F6
-            | Self::F7
-            | Self::F8 => 5,
-            Self::G1
-            | Self::G2
-            | Self::G3
-            | Self::G4
-            | Self::G5
-            | Self::G6
-            | Self::G7
-            | Self::G8 => 6,
-            Self::H1
-            | Self::H2
-            | Self::H3
-            | Self::H4
-            | Self::H5
-            | Self::H6
-            | Self::H7
-            | Self::H8 => 7,
+            Self::A1 => 1,
+            Self::B1 => 2,
+            Self::C1 => 3,
+            Self::D1 => 4,
+            Self::E1 => 5,
+            Self::F1 => 6,
+            Self::G1 => 7,
+            Self::H1 => 8,
+            Self::A2 => 1,
+            Self::B2 => 2,
+            Self::C2 => 3,
+            Self::D2 => 4,
+            Self::E2 => 5,
+            Self::F2 => 6,
+            Self::G2 => 7,
+            Self::H2 => 8,
+            Self::A3 => 1,
+            Self::B3 => 2,
+            Self::C3 => 3,
+            Self::D3 => 4,
+            Self::E3 => 5,
+            Self::F3 => 6,
+            Self::G3 => 7,
+            Self::H3 => 8,
+            Self::A4 => 1,
+            Self::B4 => 2,
+            Self::C4 => 3,
+            Self::D4 => 4,
+            Self::E4 => 5,
+            Self::F4 => 6,
+            Self::G4 => 7,
+            Self::H4 => 8,
+            Self::A5 => 1,
+            Self::B5 => 2,
+            Self::C5 => 3,
+            Self::D5 => 4,
+            Self::E5 => 5,
+            Self::F5 => 6,
+            Self::G5 => 7,
+            Self::H5 => 8,
+            Self::A6 => 1,
+            Self::B6 => 2,
+            Self::C6 => 3,
+            Self::D6 => 4,
+            Self::E6 => 5,
+            Self::F6 => 6,
+            Self::G6 => 7,
+            Self::H6 => 8,
+            Self::A7 => 1,
+            Self::B7 => 2,
+            Self::C7 => 3,
+            Self::D7 => 4,
+            Self::E7 => 5,
+            Self::F7 => 6,
+            Self::G7 => 7,
+            Self::H7 => 8,
+            Self::A8 => 1,
+            Self::B8 => 2,
+            Self::C8 => 3,
+            Self::D8 => 4,
+            Self::E8 => 5,
+            Self::F8 => 6,
+            Self::G8 => 7,
+            Self::H8 => 8,
             Self::Unknown => 404,
         }
     }
 
     pub fn get_line_code(&self) -> usize {
         match &self {
-            Self::A1 => 0,
-            Self::B1 => 1,
-            Self::C1 => 2,
-            Self::D1 => 3,
-            Self::E1 => 4,
-            Self::F1 => 5,
-            Self::G1 => 6,
-            Self::H1 => 7,
-            Self::A2 => 0,
-            Self::B2 => 1,
-            Self::C2 => 2,
-            Self::D2 => 3,
-            Self::E2 => 4,
-            Self::F2 => 5,
-            Self::G2 => 6,
-            Self::H2 => 7,
-            Self::A3 => 0,
-            Self::B3 => 1,
-            Self::C3 => 2,
-            Self::D3 => 3,
-            Self::E3 => 4,
-            Self::F3 => 5,
-            Self::G3 => 6,
-            Self::H3 => 7,
-            Self::A4 => 0,
-            Self::B4 => 1,
-            Self::C4 => 2,
-            Self::D4 => 3,
-            Self::E4 => 4,
-            Self::F4 => 5,
-            Self::G4 => 6,
-            Self::H4 => 7,
-            Self::A5 => 0,
-            Self::B5 => 1,
-            Self::C5 => 2,
-            Self::D5 => 3,
-            Self::E5 => 4,
-            Self::F5 => 5,
-            Self::G5 => 6,
-            Self::H5 => 7,
-            Self::A6 => 0,
-            Self::B6 => 1,
-            Self::C6 => 2,
-            Self::D6 => 3,
-            Self::E6 => 4,
-            Self::F6 => 5,
-            Self::G6 => 6,
-            Self::H6 => 7,
-            Self::A7 => 0,
-            Self::B7 => 1,
-            Self::C7 => 2,
-            Self::D7 => 3,
-            Self::E7 => 4,
-            Self::F7 => 5,
-            Self::G7 => 6,
-            Self::H7 => 7,
-            Self::A8 => 0,
-            Self::B8 => 1,
-            Self::C8 => 2,
-            Self::D8 => 3,
-            Self::E8 => 4,
-            Self::F8 => 5,
-            Self::G8 => 6,
-            Self::H8 => 7,
+            Self::A1
+            | Self::B1
+            | Self::C1
+            | Self::D1
+            | Self::E1
+            | Self::F1
+            | Self::G1
+            | Self::H1 => 1,
+            Self::A2
+            | Self::B2
+            | Self::C2
+            | Self::D2
+            | Self::E2
+            | Self::F2
+            | Self::G2
+            | Self::H2 => 2,
+            Self::A3
+            | Self::B3
+            | Self::C3
+            | Self::D3
+            | Self::E3
+            | Self::F3
+            | Self::G3
+            | Self::H3 => 3,
+            Self::A4
+            | Self::B4
+            | Self::C4
+            | Self::D4
+            | Self::E4
+            | Self::F4
+            | Self::G4
+            | Self::H4 => 4,
+            Self::A5
+            | Self::B5
+            | Self::C5
+            | Self::D5
+            | Self::E5
+            | Self::F5
+            | Self::G5
+            | Self::H5 => 5,
+            Self::A6
+            | Self::B6
+            | Self::C6
+            | Self::D6
+            | Self::E6
+            | Self::F6
+            | Self::G6
+            | Self::H6 => 6,
+            Self::A7
+            | Self::B7
+            | Self::C7
+            | Self::D7
+            | Self::E7
+            | Self::F7
+            | Self::G7
+            | Self::H7 => 7,
+            Self::A8
+            | Self::B8
+            | Self::C8
+            | Self::D8
+            | Self::E8
+            | Self::F8
+            | Self::G8
+            | Self::H8 => 8,
             Self::Unknown => 404,
         }
     }
@@ -220,70 +220,70 @@ impl ChessBoxKind {
     // (line, column)
     pub fn location_to_box_kind(loc: (usize, usize)) -> ChessBoxKind {
         match loc {
-            (0, 0) => ChessBoxKind::A1,
-            (0, 1) => ChessBoxKind::B1,
-            (0, 2) => ChessBoxKind::C1,
-            (0, 3) => ChessBoxKind::D1,
-            (0, 4) => ChessBoxKind::E1,
-            (0, 5) => ChessBoxKind::F1,
-            (0, 6) => ChessBoxKind::G1,
-            (0, 7) => ChessBoxKind::H1,
-            (1, 0) => ChessBoxKind::A2,
-            (1, 1) => ChessBoxKind::B2,
-            (1, 2) => ChessBoxKind::C2,
-            (1, 3) => ChessBoxKind::D2,
-            (1, 4) => ChessBoxKind::E2,
-            (1, 5) => ChessBoxKind::F2,
-            (1, 6) => ChessBoxKind::G2,
-            (1, 7) => ChessBoxKind::H2,
-            (2, 0) => ChessBoxKind::A3,
-            (2, 1) => ChessBoxKind::B3,
-            (2, 2) => ChessBoxKind::C3,
-            (2, 3) => ChessBoxKind::D3,
-            (2, 4) => ChessBoxKind::E3,
-            (2, 5) => ChessBoxKind::F3,
-            (2, 6) => ChessBoxKind::G3,
-            (2, 7) => ChessBoxKind::H3,
-            (3, 0) => ChessBoxKind::A4,
-            (3, 1) => ChessBoxKind::B4,
-            (3, 2) => ChessBoxKind::C4,
-            (3, 3) => ChessBoxKind::D4,
-            (3, 4) => ChessBoxKind::E4,
-            (3, 5) => ChessBoxKind::F4,
-            (3, 6) => ChessBoxKind::G4,
-            (3, 7) => ChessBoxKind::H4,
-            (4, 0) => ChessBoxKind::A5,
-            (4, 1) => ChessBoxKind::B5,
-            (4, 2) => ChessBoxKind::C5,
-            (4, 3) => ChessBoxKind::D5,
-            (4, 4) => ChessBoxKind::E5,
-            (4, 5) => ChessBoxKind::F5,
-            (4, 6) => ChessBoxKind::G5,
-            (4, 7) => ChessBoxKind::H5,
-            (5, 0) => ChessBoxKind::A6,
-            (5, 1) => ChessBoxKind::B6,
-            (5, 2) => ChessBoxKind::C6,
-            (5, 3) => ChessBoxKind::D6,
-            (5, 4) => ChessBoxKind::E6,
-            (5, 5) => ChessBoxKind::F6,
-            (5, 6) => ChessBoxKind::G6,
-            (5, 7) => ChessBoxKind::H6,
-            (6, 0) => ChessBoxKind::A7,
-            (6, 1) => ChessBoxKind::B7,
-            (6, 2) => ChessBoxKind::C7,
-            (6, 3) => ChessBoxKind::D7,
-            (6, 4) => ChessBoxKind::E7,
-            (6, 5) => ChessBoxKind::F7,
-            (6, 6) => ChessBoxKind::G7,
-            (6, 7) => ChessBoxKind::H7,
-            (7, 0) => ChessBoxKind::A8,
-            (7, 1) => ChessBoxKind::B8,
-            (7, 2) => ChessBoxKind::C8,
-            (7, 3) => ChessBoxKind::D8,
-            (7, 4) => ChessBoxKind::E8,
-            (7, 5) => ChessBoxKind::F8,
-            (7, 6) => ChessBoxKind::G8,
-            (7, 7) => ChessBoxKind::H8,
+            (1, 1) => ChessBoxKind::A1,
+            (1, 2) => ChessBoxKind::B1,
+            (1, 3) => ChessBoxKind::C1,
+            (1, 4) => ChessBoxKind::D1,
+            (1, 5) => ChessBoxKind::E1,
+            (1, 6) => ChessBoxKind::F1,
+            (1, 7) => ChessBoxKind::G1,
+            (1, 8) => ChessBoxKind::H1,
+            (2, 1) => ChessBoxKind::A2,
+            (2, 2) => ChessBoxKind::B2,
+            (2, 3) => ChessBoxKind::C2,
+            (2, 4) => ChessBoxKind::D2,
+            (2, 5) => ChessBoxKind::E2,
+            (2, 6) => ChessBoxKind::F2,
+            (2, 7) => ChessBoxKind::G2,
+            (2, 8) => ChessBoxKind::H2,
+            (3, 1) => ChessBoxKind::A3,
+            (3, 2) => ChessBoxKind::B3,
+            (3, 3) => ChessBoxKind::C3,
+            (3, 4) => ChessBoxKind::D3,
+            (3, 5) => ChessBoxKind::E3,
+            (3, 6) => ChessBoxKind::F3,
+            (3, 7) => ChessBoxKind::G3,
+            (3, 8) => ChessBoxKind::H3,
+            (4, 1) => ChessBoxKind::A4,
+            (4, 2) => ChessBoxKind::B4,
+            (4, 3) => ChessBoxKind::C4,
+            (4, 4) => ChessBoxKind::D4,
+            (4, 5) => ChessBoxKind::E4,
+            (4, 6) => ChessBoxKind::F4,
+            (4, 7) => ChessBoxKind::G4,
+            (4, 8) => ChessBoxKind::H4,
+            (5, 1) => ChessBoxKind::A5,
+            (5, 2) => ChessBoxKind::B5,
+            (5, 3) => ChessBoxKind::C5,
+            (5, 4) => ChessBoxKind::D5,
+            (5, 5) => ChessBoxKind::E5,
+            (5, 6) => ChessBoxKind::F5,
+            (5, 7) => ChessBoxKind::G5,
+            (5, 8) => ChessBoxKind::H5,
+            (6, 1) => ChessBoxKind::A6,
+            (6, 2) => ChessBoxKind::B6,
+            (6, 3) => ChessBoxKind::C6,
+            (6, 4) => ChessBoxKind::D6,
+            (6, 5) => ChessBoxKind::E6,
+            (6, 6) => ChessBoxKind::F6,
+            (6, 7) => ChessBoxKind::G6,
+            (6, 8) => ChessBoxKind::H6,
+            (7, 1) => ChessBoxKind::A7,
+            (7, 2) => ChessBoxKind::B7,
+            (7, 3) => ChessBoxKind::C7,
+            (7, 4) => ChessBoxKind::D7,
+            (7, 5) => ChessBoxKind::E7,
+            (7, 6) => ChessBoxKind::F7,
+            (7, 7) => ChessBoxKind::G7,
+            (7, 8) => ChessBoxKind::H7,
+            (8, 1) => ChessBoxKind::A8,
+            (8, 2) => ChessBoxKind::B8,
+            (8, 3) => ChessBoxKind::C8,
+            (8, 4) => ChessBoxKind::D8,
+            (8, 5) => ChessBoxKind::E8,
+            (8, 6) => ChessBoxKind::F8,
+            (8, 7) => ChessBoxKind::G8,
+            (8, 8) => ChessBoxKind::H8,
             _ => ChessBoxKind::Unknown,
         }
     }
@@ -681,7 +681,7 @@ impl Tray {
             | &ChessBoxKind::E1
             | &ChessBoxKind::F1
             | &ChessBoxKind::G1
-            | &ChessBoxKind::H1 => self.tray.0[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H1 => self.tray.0[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
             &ChessBoxKind::A2
             | &ChessBoxKind::B2
             | &ChessBoxKind::C2
@@ -689,7 +689,7 @@ impl Tray {
             | &ChessBoxKind::E2
             | &ChessBoxKind::F2
             | &ChessBoxKind::G2
-            | &ChessBoxKind::H2 => self.tray.1[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H2 => self.tray.1[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
             &ChessBoxKind::A3
             | &ChessBoxKind::B3
             | &ChessBoxKind::C3
@@ -697,7 +697,9 @@ impl Tray {
             | &ChessBoxKind::E3
             | &ChessBoxKind::F3
             | &ChessBoxKind::G3
-            | &ChessBoxKind::H3 => self.tray.2[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H3 => {
+                self.tray.2[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::A4
             | &ChessBoxKind::B4
             | &ChessBoxKind::C4
@@ -705,7 +707,7 @@ impl Tray {
             | &ChessBoxKind::E4
             | &ChessBoxKind::F4
             | &ChessBoxKind::G4
-            | &ChessBoxKind::H4 => self.tray.3[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H4 => self.tray.3[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
             &ChessBoxKind::A5
             | &ChessBoxKind::B5
             | &ChessBoxKind::C5
@@ -713,7 +715,7 @@ impl Tray {
             | &ChessBoxKind::E5
             | &ChessBoxKind::F5
             | &ChessBoxKind::G5
-            | &ChessBoxKind::H5 => self.tray.4[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H5 => self.tray.4[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
             &ChessBoxKind::A6
             | &ChessBoxKind::B6
             | &ChessBoxKind::C6
@@ -721,7 +723,7 @@ impl Tray {
             | &ChessBoxKind::E6
             | &ChessBoxKind::F6
             | &ChessBoxKind::G6
-            | &ChessBoxKind::H6 => self.tray.5[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H6 => self.tray.5[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
             &ChessBoxKind::A7
             | &ChessBoxKind::B7
             | &ChessBoxKind::C7
@@ -729,7 +731,7 @@ impl Tray {
             | &ChessBoxKind::E7
             | &ChessBoxKind::F7
             | &ChessBoxKind::G7
-            | &ChessBoxKind::H7 => self.tray.6[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H7 => self.tray.6[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
             &ChessBoxKind::A8
             | &ChessBoxKind::B8
             | &ChessBoxKind::C8
@@ -737,7 +739,7 @@ impl Tray {
             | &ChessBoxKind::E8
             | &ChessBoxKind::F8
             | &ChessBoxKind::G8
-            | &ChessBoxKind::H8 => self.tray.7[ChessBoxKind::get_line_code(&box_kind)].clone(),
+            | &ChessBoxKind::H8 => self.tray.7[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
             &ChessBoxKind::Unknown => {
                 ChessBox::new(ChessBoxKind::Unknown, ChessBoxColor::White, None)
             }

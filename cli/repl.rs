@@ -2,11 +2,15 @@ use std::io::Write;
 
 use crate::version::CHESS_GAME_VERSION;
 
+use chess_game::ChessBishopKind;
+use chess_game::ChessMove;
 use rustyline::error::ReadlineError;
 use rustyline::Editor;
 
 use chess_game::ChessBox;
+use chess_game::ChessBoxKind;
 use chess_game::ChessPieceColor;
+use chess_game::ChessPieceKind;
 use chess_game::ChessPlayer;
 use chess_game::Tray;
 
@@ -92,6 +96,13 @@ pub fn run_start_repl_command() {
                 let mut chess_move = String::new();
 
                 tray.print_tray(ChessPieceColor::White);
+                println!(
+                    "{:?}",
+                    tray.chess_possible_move(
+                        ChessPieceKind::Bishop(ChessPieceColor::White, ChessBishopKind::Black),
+                        ChessBoxKind::C1,
+                    )
+                );
                 print!("::: ");
                 std::io::stdout().flush().unwrap();
                 std::io::stdin().read_line(&mut chess_move).unwrap();
