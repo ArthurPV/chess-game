@@ -1,0 +1,10 @@
+[package]
+name = "chess_eval"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chess_game = { version = "0.1.0", path = "../game" }
+
+[lib]
+path = "lib.rs"

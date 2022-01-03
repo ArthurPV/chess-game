@@ -40,7 +40,7 @@ pub trait ChessMove {
     ) -> Vec<ChessTurnAction>;
     fn chess_modify_box(&mut self, box_kind: &ChessBoxKind, piece: Option<ChessPieceKind>);
     fn chess_possible_move(
-        &mut self,
+        &self,
         piece_kind: ChessPieceKind,
         box_kind: ChessBoxKind,
     ) -> Vec<ChessTurnAction>;
@@ -58,7 +58,7 @@ impl ChessMove for Tray {
         let column = ChessBoxKind::get_column_code(box_kind);
 
         // advance one case
-        {
+        if color_kind == &ChessPieceColor::White {
             let box_above = self.get_box(&ChessBoxKind::location_to_box_kind((line + 1, column)));
 
             match box_above.piece {
@@ -68,30 +68,24 @@ impl ChessMove for Tray {
                     box_above,
                 )),
             }
+        } else {
+            let box_below = self.get_box(&ChessBoxKind::location_to_box_kind((line - 1, column)));
+
+            match box_below.piece {
+                Some(_) => (),
+                None => p_move.push(ChessTurnAction::new_move(
+                    ChessPieceKind::Pawn(*color_kind),
+                    box_below,
+                )),
+            }
         }
 
         // advance two cases
-        {
+        if color_kind == &ChessPieceColor::White {
             let box_above = self.get_box(&ChessBoxKind::location_to_box_kind((line + 2, column)));
 
             match box_above.piece {
                 Some(_) => (),
-                None if color_kind == &ChessPieceColor::Black => {
-                    match ChessBoxKind::location_to_box_kind((line, column)) {
-                        ChessBoxKind::A7
-                        | ChessBoxKind::B7
-                        | ChessBoxKind::C7
-                        | ChessBoxKind::D7
-                        | ChessBoxKind::E7
-                        | ChessBoxKind::F7
-                        | ChessBoxKind::G7
-                        | ChessBoxKind::H7 => p_move.push(ChessTurnAction::new_move(
-                            ChessPieceKind::Pawn(*color_kind),
-                            box_above,
-                        )),
-                        _ => (),
-                    }
-                }
                 None => match ChessBoxKind::location_to_box_kind((line, column)) {
                     ChessBoxKind::A2
                     | ChessBoxKind::B2
@@ -107,10 +101,31 @@ impl ChessMove for Tray {
                     _ => (),
                 },
             }
+        } else {
+            let box_below = self.get_box(&ChessBoxKind::location_to_box_kind((line - 2, column)));
+
+            match box_below.piece {
+                Some(_) => (),
+                None => match ChessBoxKind::location_to_box_kind((line, column)) {
+                    ChessBoxKind::A7
+                    | ChessBoxKind::B7
+                    | ChessBoxKind::C7
+                    | ChessBoxKind::D7
+                    | ChessBoxKind::E7
+                    | ChessBoxKind::F7
+                    | ChessBoxKind::G7
+                    | ChessBoxKind::H7 => p_move.push(ChessTurnAction::new_move(
+                        ChessPieceKind::Pawn(*color_kind),
+                        box_below,
+                    )),
+                    _ => (),
+                },
+            }
         }
 
         // eat piece
         {
+            // TODO: review this feature later
             if column == 0 {
                 let eat = self.get_box(&ChessBoxKind::location_to_box_kind((line, column + 1)));
 
@@ -761,7 +776,7 @@ impl ChessMove for Tray {
     }
 
     fn chess_possible_move(
-        &mut self,
+        &self,
         piece_kind: ChessPieceKind,
         box_kind: ChessBoxKind,
     ) -> Vec<ChessTurnAction> {

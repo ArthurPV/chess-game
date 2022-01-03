@@ -1,6 +1,7 @@
 [workspace]
 members = [
 	"cli",
+	"eval",
 	"game",
 	"opening",
 	"reader"

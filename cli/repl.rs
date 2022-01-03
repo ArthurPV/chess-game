@@ -2,6 +2,7 @@ use std::io::Write;
 
 use crate::version::CHESS_GAME_VERSION;
 
+use chess_eval::Eval;
 use chess_game::ChessBishopKind;
 use chess_game::ChessMove;
 use rustyline::error::ReadlineError;
@@ -94,14 +95,16 @@ pub fn run_start_repl_command() {
         match chess_player1 {
             ChessPlayer::Player1(ChessPieceColor::White) => loop {
                 let mut chess_move = String::new();
-
+                tray.get_active_piece();
                 tray.print_tray(ChessPieceColor::White);
+                let mut eval = Eval::new(&tray);
+                eval.eval_total();
                 /*println!(
-                    "{:?}",
-                    tray.chess_possible_move(
-                        ChessPieceKind::Knight(ChessPieceColor::White),
-                        ChessBoxKind::B1
-                    )
+                        "{:?}",
+                        tray.chess_possible_move(
+                            ChessPieceKind::Knight(ChessPieceColor::White),
+                            ChessBoxKind::B1
+                        )
                 );*/
                 print!("::: ");
                 std::io::stdout().flush().unwrap();
@@ -117,7 +120,10 @@ pub fn run_start_repl_command() {
             },
             _ => loop {
                 let mut chess_move = String::new();
+                tray.get_active_piece();
                 tray.print_tray(ChessPieceColor::Black);
+                let mut eval = Eval::new(&tray);
+                eval.eval_total();
                 print!("::: ");
                 std::io::stdout().flush().unwrap();
                 std::io::stdin().read_line(&mut chess_move).unwrap();
