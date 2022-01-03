@@ -26,7 +26,7 @@ pub enum CastleKind {
 #[derive(Debug)]
 pub enum ChessTurnAction {
     Move(ChessPieceKind, ChessBox), // piece move and where it move
-    Eat(ChessPieceKind, ChessBox),
+    Eat(ChessPieceKind, ChessBox /*, Option<Box<Self>>*/),
     Castle(CastleKind, ChessBox),
     Check(ChessPieceKind, ChessBox),
     Checkmate(ChessPieceKind, ChessBox),

@@ -96,13 +96,13 @@ pub fn run_start_repl_command() {
                 let mut chess_move = String::new();
 
                 tray.print_tray(ChessPieceColor::White);
-                println!(
+                /*println!(
                     "{:?}",
                     tray.chess_possible_move(
-                        ChessPieceKind::Bishop(ChessPieceColor::White, ChessBishopKind::Black),
-                        ChessBoxKind::C1,
+                        ChessPieceKind::Knight(ChessPieceColor::White),
+                        ChessBoxKind::B1
                     )
-                );
+                );*/
                 print!("::: ");
                 std::io::stdout().flush().unwrap();
                 std::io::stdin().read_line(&mut chess_move).unwrap();

@@ -11,6 +11,6 @@ pub use tray::ChessBox;
 pub use tray::ChessBoxColor;
 pub use tray::ChessBoxKind;
 pub use tray::Tray;
+pub use turn::CastleKind;
 pub use turn::ChessPlayer;
 pub use turn::ChessTurnAction;
-pub use turn::CastleKind;

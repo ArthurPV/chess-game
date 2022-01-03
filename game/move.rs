@@ -332,28 +332,11 @@ impl ChessMove for Tray {
             }
         }
 
-        /*println!("LINE {}, COLUMN {}", line + 2, column + 1);
-        println!("LINE {}, COLUMN {}", line + 2, (column - 1) as isize);
-        println!("LINE {}, COLUMN {}", line + 1, column + 2);
-        println!("LINE {}, COLUMN {}", (line - 1) as isize, column + 2);
-        println!("LINE {}, COLUMN {}", (line - 2) as isize, column + 1);
-        println!(
-            "LINE {}, COLUMN {}",
-            (line - 2) as isize,
-            (column - 1) as isize
-        );
-        println!("LINE {}, COLUMN {}", line + 1, (column - 2) as isize);
-        println!(
-            "LINE {}, COLUMN {}",
-            (line - 1) as isize,
-            (column - 2) as isize
-        );*/
-
         if line + 2 <= 8 && column + 1 <= 8 {
             knight_move(&self, &mut n_move, color_kind, line + 2, column + 1)
         }
 
-        if line + 2 <= 8 && (column - 1) as isize >= 1 {
+        if line + 2 <= 8 && (column) as isize - 1 >= 1 {
             knight_move(&self, &mut n_move, color_kind, line + 2, column - 1)
         }
 
@@ -361,23 +344,23 @@ impl ChessMove for Tray {
             knight_move(&self, &mut n_move, color_kind, line + 1, column + 2)
         }
 
-        if (line - 1) as isize >= 1 && column + 2 <= 8 {
+        if (line) as isize - 1 >= 1 && column + 2 <= 8 {
             knight_move(&self, &mut n_move, color_kind, line - 1, column + 2)
         }
 
-        if (line - 2) as isize >= 1 && column + 1 <= 8 {
+        if (line) as isize - 2 >= 1 && column + 1 <= 8 {
             knight_move(&self, &mut n_move, color_kind, line - 2, column + 1)
         }
 
-        if (line - 2) as isize >= 1 && (column - 1) as isize >= 1 {
+        if (line) as isize - 2 >= 1 && (column) as isize - 1 >= 1 {
             knight_move(&self, &mut n_move, color_kind, line - 2, column - 1)
         }
 
-        if line + 1 <= 8 && (column - 2) as isize >= 1 {
+        if line + 1 <= 8 && (column) as isize - 2 >= 1 {
             knight_move(&self, &mut n_move, color_kind, line + 1, column - 2)
         }
 
-        if (line - 1) as isize >= 1 && (column - 2) as isize >= 1 {
+        if (line) as isize - 1 >= 1 && (column) as isize - 2 >= 1 {
             knight_move(&self, &mut n_move, color_kind, line - 1, column - 2)
         }
 

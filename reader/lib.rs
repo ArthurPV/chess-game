@@ -77,6 +77,16 @@ pub fn str_move_to_action<'a>(
         'R' => todo!(),
         'Q' => todo!(),
         'K' => todo!(),
+        'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' => match chess_move.chars().nth(1).unwrap() {
+            'B' => todo!(),
+            'N' => todo!(),
+            'R' => todo!(),
+            '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' => match chess_move.chars().nth(2).unwrap() {
+                '=' => todo!(),
+                _ => todo!(),
+            },
+            _ => Err("invalid move"),
+        },
         _ => Err("invalid move"),
     }
 }

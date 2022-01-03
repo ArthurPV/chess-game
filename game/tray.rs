@@ -681,7 +681,9 @@ impl Tray {
             | &ChessBoxKind::E1
             | &ChessBoxKind::F1
             | &ChessBoxKind::G1
-            | &ChessBoxKind::H1 => self.tray.0[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
+            | &ChessBoxKind::H1 => {
+                self.tray.0[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::A2
             | &ChessBoxKind::B2
             | &ChessBoxKind::C2
@@ -689,7 +691,9 @@ impl Tray {
             | &ChessBoxKind::E2
             | &ChessBoxKind::F2
             | &ChessBoxKind::G2
-            | &ChessBoxKind::H2 => self.tray.1[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
+            | &ChessBoxKind::H2 => {
+                self.tray.1[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::A3
             | &ChessBoxKind::B3
             | &ChessBoxKind::C3
@@ -707,7 +711,9 @@ impl Tray {
             | &ChessBoxKind::E4
             | &ChessBoxKind::F4
             | &ChessBoxKind::G4
-            | &ChessBoxKind::H4 => self.tray.3[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
+            | &ChessBoxKind::H4 => {
+                self.tray.3[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::A5
             | &ChessBoxKind::B5
             | &ChessBoxKind::C5
@@ -715,7 +721,9 @@ impl Tray {
             | &ChessBoxKind::E5
             | &ChessBoxKind::F5
             | &ChessBoxKind::G5
-            | &ChessBoxKind::H5 => self.tray.4[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
+            | &ChessBoxKind::H5 => {
+                self.tray.4[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::A6
             | &ChessBoxKind::B6
             | &ChessBoxKind::C6
@@ -723,7 +731,9 @@ impl Tray {
             | &ChessBoxKind::E6
             | &ChessBoxKind::F6
             | &ChessBoxKind::G6
-            | &ChessBoxKind::H6 => self.tray.5[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
+            | &ChessBoxKind::H6 => {
+                self.tray.5[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::A7
             | &ChessBoxKind::B7
             | &ChessBoxKind::C7
@@ -731,7 +741,9 @@ impl Tray {
             | &ChessBoxKind::E7
             | &ChessBoxKind::F7
             | &ChessBoxKind::G7
-            | &ChessBoxKind::H7 => self.tray.6[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
+            | &ChessBoxKind::H7 => {
+                self.tray.6[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::A8
             | &ChessBoxKind::B8
             | &ChessBoxKind::C8
@@ -739,7 +751,9 @@ impl Tray {
             | &ChessBoxKind::E8
             | &ChessBoxKind::F8
             | &ChessBoxKind::G8
-            | &ChessBoxKind::H8 => self.tray.7[ChessBoxKind::get_column_code(&box_kind) - 1].clone(),
+            | &ChessBoxKind::H8 => {
+                self.tray.7[ChessBoxKind::get_column_code(&box_kind) - 1].clone()
+            }
             &ChessBoxKind::Unknown => {
                 ChessBox::new(ChessBoxKind::Unknown, ChessBoxColor::White, None)
             }
