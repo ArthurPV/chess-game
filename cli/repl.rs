@@ -13,7 +13,9 @@ use chess_game::ChessBoxKind;
 use chess_game::ChessPieceColor;
 use chess_game::ChessPieceKind;
 use chess_game::ChessPlayer;
+use chess_game::ChessTurnAction;
 use chess_game::Tray;
+use chess_reader::str_move_to_action;
 
 pub enum ReplCommand {
     Help,
@@ -99,13 +101,13 @@ pub fn run_start_repl_command() {
                 tray.print_tray(ChessPieceColor::White);
                 let mut eval = Eval::new(&tray);
                 eval.eval_total();
-                /*println!(
-                        "{:?}",
-                        tray.chess_possible_move(
-                            ChessPieceKind::Knight(ChessPieceColor::White),
-                            ChessBoxKind::B1
-                        )
-                );*/
+                // println!(
+                //         "{:?}",
+                //         tray.chess_possible_move(
+                //             ChessPieceKind::Bishop(ChessPieceColor::White, ChessBishopKind::Black),
+                //             ChessBoxKind::D4
+                //         )
+                // );
                 print!("::: ");
                 std::io::stdout().flush().unwrap();
                 std::io::stdin().read_line(&mut chess_move).unwrap();
@@ -113,10 +115,34 @@ pub fn run_start_repl_command() {
                 match &chess_move[..chess_move.len() - 1] {
                     "quit" => break,
                     "q" => break,
-                    _ => (),
+                    _ => match str_move_to_action(
+                        &mut tray,
+                        &chess_move[..chess_move.len() - 1],
+                        ChessPieceColor::White,
+                    ) {
+                        Ok(a) => {
+                            for p in tray.active_white_piece.clone() {
+                                match a {
+                                    ChessTurnAction::Move(pi, k, b) if k == p.kind => {
+                                        let possible_move =
+                                            tray.get_all_possible_move(&ChessPieceColor::White);
+                                        // println!("{:#?}", possible_move);
+                                        let result = possible_move
+                                            .iter()
+                                            .filter(|x| x == &&a)
+                                            .collect::<Vec<&ChessTurnAction>>();
+                                        if result.len() == 1 {
+                                            tray.chess_modify_box(&k, None);
+                                            tray.chess_modify_box(&b.kind, Some(pi));
+                                        }
+                                    }
+                                    _ => (),
+                                }
+                            }
+                        }
+                        Err(e) => println!("error: {}", e),
+                    },
                 }
-
-                println!("To computer to play");
             },
             _ => loop {
                 let mut chess_move = String::new();

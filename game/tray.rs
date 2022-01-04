@@ -1,13 +1,13 @@
 use crate::{piece::*, ChessPlayer};
 use colored::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ChessBoxColor {
     Black,
     White,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ChessBoxKind {
     A1,
     A2,
@@ -289,7 +289,7 @@ impl ChessBoxKind {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ChessBox {
     pub kind: ChessBoxKind,
     pub color: ChessBoxColor,

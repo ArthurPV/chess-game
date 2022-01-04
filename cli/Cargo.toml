@@ -8,6 +8,7 @@ name = "chess"
 path = "main.rs"
 
 [dependencies]
+chess_reader = { path = "../reader", version = "0.1.0" }
 chess_game = { path = "../game", version = "0.1.0" }
 chess_eval = { path = "../eval", version = "0.1.0" }
 rustyline = "9.0.0"

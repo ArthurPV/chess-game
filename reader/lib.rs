@@ -1,6 +1,7 @@
 use chess_game::CastleKind;
 use chess_game::ChessBox;
 use chess_game::ChessBoxKind;
+use chess_game::ChessMove;
 use chess_game::ChessPieceColor;
 use chess_game::ChessPieceKind;
 use chess_game::ChessTurnAction;
@@ -38,8 +39,8 @@ pub fn str_move_to_action<'a>(
     color_kind: ChessPieceColor,
 ) -> Result<ChessTurnAction, &'a str> {
     match chess_move.chars().nth(0).unwrap() {
-        'O' => {
-            if chess_move == "O-O" {
+        '0' => {
+            if chess_move == "0-0" {
                 return Ok(ChessTurnAction::Castle(
                     CastleKind::Kingside,
                     tray.get_box(&color_to_kingside(color_kind)),
@@ -81,9 +82,41 @@ pub fn str_move_to_action<'a>(
             'B' => todo!(),
             'N' => todo!(),
             'R' => todo!(),
-            '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' => match chess_move.chars().nth(2).unwrap() {
-                '=' => todo!(),
-                _ => todo!(),
+            '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' => match chess_move.chars().nth(2) {
+                Some('=') => todo!(),
+                None => {
+                    if chess_move.chars().nth(1).unwrap() == '4'
+                        && color_kind == ChessPieceColor::White
+                    {
+                        let kind = format!("{}2", chess_move.chars().nth(0).unwrap());
+                        return Ok(ChessTurnAction::new_move(
+                            ChessPieceKind::Pawn(color_kind),
+                            tray.box_str_to_box(&kind).kind,
+                            tray.box_str_to_box(chess_move),
+                        ));
+                    } else if chess_move.chars().nth(1).unwrap() == '5'
+                        && color_kind == ChessPieceColor::Black
+                    {
+                        let kind = format!("{}7", chess_move.chars().nth(0).unwrap());
+                        return Ok(ChessTurnAction::new_move(
+                            ChessPieceKind::Pawn(color_kind),
+                            tray.box_str_to_box(&kind).kind,
+                            tray.box_str_to_box(chess_move),
+                        ));
+                    } else {
+                        let kind = format!(
+                            "{}{}",
+                            chess_move.chars().nth(0).unwrap(),
+                            chess_move.chars().nth(1).unwrap().to_digit(10).unwrap() - 1
+                        );
+                        return Ok(ChessTurnAction::new_move(
+                            ChessPieceKind::Pawn(color_kind),
+                            tray.box_str_to_box(&kind).kind,
+                            tray.box_str_to_box(chess_move),
+                        ));
+                    }
+                }
+                _ => Err("invalid move"),
             },
             _ => Err("invalid move"),
         },

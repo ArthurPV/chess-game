@@ -44,6 +44,7 @@ pub trait ChessMove {
         piece_kind: ChessPieceKind,
         box_kind: ChessBoxKind,
     ) -> Vec<ChessTurnAction>;
+    fn get_all_possible_move(&self, color_kind: &ChessPieceColor) -> Vec<ChessTurnAction>;
 }
 
 impl ChessMove for Tray {
@@ -65,6 +66,7 @@ impl ChessMove for Tray {
                 Some(_) => (),
                 None => p_move.push(ChessTurnAction::new_move(
                     ChessPieceKind::Pawn(*color_kind),
+                    *box_kind,
                     box_above,
                 )),
             }
@@ -75,6 +77,7 @@ impl ChessMove for Tray {
                 Some(_) => (),
                 None => p_move.push(ChessTurnAction::new_move(
                     ChessPieceKind::Pawn(*color_kind),
+                    *box_kind,
                     box_below,
                 )),
             }
@@ -96,6 +99,7 @@ impl ChessMove for Tray {
                     | ChessBoxKind::G2
                     | ChessBoxKind::H2 => p_move.push(ChessTurnAction::new_move(
                         ChessPieceKind::Pawn(*color_kind),
+                        *box_kind,
                         box_above,
                     )),
                     _ => (),
@@ -116,6 +120,7 @@ impl ChessMove for Tray {
                     | ChessBoxKind::G7
                     | ChessBoxKind::H7 => p_move.push(ChessTurnAction::new_move(
                         ChessPieceKind::Pawn(*color_kind),
+                        *box_kind,
                         box_below,
                     )),
                     _ => (),
@@ -133,10 +138,12 @@ impl ChessMove for Tray {
                     Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
                         ChessPieceKind::King(_) => p_move.push(ChessTurnAction::new_check(
                             ChessPieceKind::Pawn(*color_kind),
+                            *box_kind,
                             eat,
                         )),
                         _ => p_move.push(ChessTurnAction::new_eat(
                             ChessPieceKind::Pawn(*color_kind),
+                            *box_kind,
                             eat,
                         )),
                     },
@@ -150,10 +157,12 @@ impl ChessMove for Tray {
                     Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
                         ChessPieceKind::King(_) => p_move.push(ChessTurnAction::new_check(
                             ChessPieceKind::Pawn(*color_kind),
+                            *box_kind,
                             eat,
                         )),
                         _ => p_move.push(ChessTurnAction::new_eat(
                             ChessPieceKind::Pawn(*color_kind),
+                            *box_kind,
                             eat,
                         )),
                     },
@@ -171,10 +180,12 @@ impl ChessMove for Tray {
                         Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
                             ChessPieceKind::King(_) => p_move.push(ChessTurnAction::new_check(
                                 ChessPieceKind::Pawn(*color_kind),
+                                *box_kind,
                                 eat[i].clone(),
                             )),
                             _ => p_move.push(ChessTurnAction::new_eat(
                                 ChessPieceKind::Pawn(*color_kind),
+                                *box_kind,
                                 eat[i].clone(),
                             )),
                         },
@@ -201,6 +212,7 @@ impl ChessMove for Tray {
 
         fn bishop_move(
             tray: &Tray,
+            box_kind: &ChessBoxKind,
             b_move: &mut Vec<ChessTurnAction>,
             color_kind: &ChessPieceColor,
             bishop_kind: &ChessBishopKind,
@@ -214,6 +226,7 @@ impl ChessMove for Tray {
                     ChessPieceKind::King(_) => {
                         b_move.push(ChessTurnAction::new_check(
                             ChessPieceKind::Bishop(*color_kind, *bishop_kind),
+                            *box_kind,
                             m,
                         ));
                         true
@@ -221,6 +234,7 @@ impl ChessMove for Tray {
                     _ => {
                         b_move.push(ChessTurnAction::new_eat(
                             ChessPieceKind::Bishop(*color_kind, *bishop_kind),
+                            *box_kind,
                             m,
                         ));
                         true
@@ -230,6 +244,7 @@ impl ChessMove for Tray {
                 None => {
                     b_move.push(ChessTurnAction::new_move(
                         ChessPieceKind::Bishop(*color_kind, *bishop_kind),
+                        *box_kind,
                         m,
                     ));
                     false
@@ -242,6 +257,7 @@ impl ChessMove for Tray {
             if line + i <= 8 && column + i <= 8 {
                 if bishop_move(
                     &self,
+                    box_kind,
                     &mut b_move,
                     color_kind,
                     bishop_kind,
@@ -259,6 +275,7 @@ impl ChessMove for Tray {
             if line + i <= 8 && (column - i) as isize >= 1 {
                 if bishop_move(
                     &self,
+                    box_kind,
                     &mut b_move,
                     color_kind,
                     bishop_kind,
@@ -276,6 +293,7 @@ impl ChessMove for Tray {
             if (line - i) as isize >= 1 && column + i <= 8 {
                 if bishop_move(
                     &self,
+                    box_kind,
                     &mut b_move,
                     color_kind,
                     bishop_kind,
@@ -293,6 +311,7 @@ impl ChessMove for Tray {
             if (line - i) as isize >= 1 && (column - i) as isize >= 1 {
                 if bishop_move(
                     &self,
+                    box_kind,
                     &mut b_move,
                     color_kind,
                     bishop_kind,
@@ -321,6 +340,7 @@ impl ChessMove for Tray {
 
         fn knight_move(
             tray: &Tray,
+            box_kind: &ChessBoxKind,
             n_move: &mut Vec<ChessTurnAction>,
             color_kind: &ChessPieceColor,
             line: usize,
@@ -332,51 +352,110 @@ impl ChessMove for Tray {
                 Some(v) if ChessPieceKind::is_edible(&v, color_kind) => match v {
                     ChessPieceKind::King(_) => n_move.push(ChessTurnAction::new_check(
                         ChessPieceKind::Knight(*color_kind),
+                        *box_kind,
                         m,
                     )),
                     _ => n_move.push(ChessTurnAction::new_eat(
                         ChessPieceKind::Knight(*color_kind),
+                        *box_kind,
                         m,
                     )),
                 },
                 Some(_) => (),
                 None => n_move.push(ChessTurnAction::new_move(
                     ChessPieceKind::Knight(*color_kind),
+                    *box_kind,
                     m,
                 )),
             }
         }
 
         if line + 2 <= 8 && column + 1 <= 8 {
-            knight_move(&self, &mut n_move, color_kind, line + 2, column + 1)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line + 2,
+                column + 1,
+            )
         }
 
         if line + 2 <= 8 && (column) as isize - 1 >= 1 {
-            knight_move(&self, &mut n_move, color_kind, line + 2, column - 1)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line + 2,
+                column - 1,
+            )
         }
 
         if line + 1 <= 8 && column + 2 <= 8 {
-            knight_move(&self, &mut n_move, color_kind, line + 1, column + 2)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line + 1,
+                column + 2,
+            )
         }
 
         if (line) as isize - 1 >= 1 && column + 2 <= 8 {
-            knight_move(&self, &mut n_move, color_kind, line - 1, column + 2)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line - 1,
+                column + 2,
+            )
         }
 
         if (line) as isize - 2 >= 1 && column + 1 <= 8 {
-            knight_move(&self, &mut n_move, color_kind, line - 2, column + 1)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line - 2,
+                column + 1,
+            )
         }
 
         if (line) as isize - 2 >= 1 && (column) as isize - 1 >= 1 {
-            knight_move(&self, &mut n_move, color_kind, line - 2, column - 1)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line - 2,
+                column - 1,
+            )
         }
 
         if line + 1 <= 8 && (column) as isize - 2 >= 1 {
-            knight_move(&self, &mut n_move, color_kind, line + 1, column - 2)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line + 1,
+                column - 2,
+            )
         }
 
         if (line) as isize - 1 >= 1 && (column) as isize - 2 >= 1 {
-            knight_move(&self, &mut n_move, color_kind, line - 1, column - 2)
+            knight_move(
+                &self,
+                box_kind,
+                &mut n_move,
+                color_kind,
+                line - 1,
+                column - 2,
+            )
         }
 
         n_move
@@ -394,6 +473,7 @@ impl ChessMove for Tray {
 
         fn rook_move(
             tray: &Tray,
+            box_kind: &ChessBoxKind,
             r_move: &mut Vec<ChessTurnAction>,
             color_kind: &ChessPieceColor,
             line: usize,
@@ -406,6 +486,7 @@ impl ChessMove for Tray {
                     ChessPieceKind::King(_) => {
                         r_move.push(ChessTurnAction::new_check(
                             ChessPieceKind::Rook(*color_kind),
+                            *box_kind,
                             m,
                         ));
                         true
@@ -413,6 +494,7 @@ impl ChessMove for Tray {
                     _ => {
                         r_move.push(ChessTurnAction::new_eat(
                             ChessPieceKind::Rook(*color_kind),
+                            *box_kind,
                             m,
                         ));
                         true
@@ -422,6 +504,7 @@ impl ChessMove for Tray {
                 None => {
                     r_move.push(ChessTurnAction::new_move(
                         ChessPieceKind::Rook(*color_kind),
+                        *box_kind,
                         m,
                     ));
                     false
@@ -431,7 +514,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if line + i <= 8 {
-                if rook_move(&self, &mut r_move, color_kind, line + i, column) {
+                if rook_move(&self, box_kind, &mut r_move, color_kind, line + i, column) {
                     break;
                 }
             } else {
@@ -441,7 +524,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if (line - i) as isize >= 1 {
-                if rook_move(&self, &mut r_move, color_kind, line - i, column) {
+                if rook_move(&self, box_kind, &mut r_move, color_kind, line - i, column) {
                     break;
                 }
             } else {
@@ -451,7 +534,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if column + i <= 8 {
-                if rook_move(&self, &mut r_move, color_kind, line, column + i) {
+                if rook_move(&self, box_kind, &mut r_move, color_kind, line, column + i) {
                     break;
                 }
             } else {
@@ -461,7 +544,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if (column - i) as isize >= 1 {
-                if rook_move(&self, &mut r_move, color_kind, line, column - i) {
+                if rook_move(&self, box_kind, &mut r_move, color_kind, line, column - i) {
                     break;
                 }
             } else {
@@ -484,6 +567,7 @@ impl ChessMove for Tray {
 
         fn queen_move(
             tray: &Tray,
+            box_kind: &ChessBoxKind,
             q_move: &mut Vec<ChessTurnAction>,
             color_kind: &ChessPieceColor,
             line: usize,
@@ -496,6 +580,7 @@ impl ChessMove for Tray {
                     ChessPieceKind::King(_) => {
                         q_move.push(ChessTurnAction::new_check(
                             ChessPieceKind::Queen(*color_kind),
+                            *box_kind,
                             m,
                         ));
                         true
@@ -503,6 +588,7 @@ impl ChessMove for Tray {
                     _ => {
                         q_move.push(ChessTurnAction::new_eat(
                             ChessPieceKind::Queen(*color_kind),
+                            *box_kind,
                             m,
                         ));
                         true
@@ -512,6 +598,7 @@ impl ChessMove for Tray {
                 None => {
                     q_move.push(ChessTurnAction::new_move(
                         ChessPieceKind::Queen(*color_kind),
+                        *box_kind,
                         m,
                     ));
                     false
@@ -523,7 +610,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if line + i <= 8 {
-                if queen_move(&self, &mut q_move, color_kind, line + i, column) {
+                if queen_move(&self, box_kind, &mut q_move, color_kind, line + i, column) {
                     break;
                 }
             } else {
@@ -533,7 +620,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if (line - i) as isize >= 1 {
-                if queen_move(&self, &mut q_move, color_kind, line - i, column) {
+                if queen_move(&self, box_kind, &mut q_move, color_kind, line - i, column) {
                     break;
                 }
             } else {
@@ -543,7 +630,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if column + i <= 8 {
-                if queen_move(&self, &mut q_move, color_kind, line, column + i) {
+                if queen_move(&self, box_kind, &mut q_move, color_kind, line, column + i) {
                     break;
                 }
             } else {
@@ -553,7 +640,7 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if (column - i) as isize >= 1 {
-                if queen_move(&self, &mut q_move, color_kind, line, column - i) {
+                if queen_move(&self, box_kind, &mut q_move, color_kind, line, column - i) {
                     break;
                 }
             } else {
@@ -565,7 +652,14 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if line + i <= 8 && column + i <= 8 {
-                if queen_move(&self, &mut q_move, color_kind, line + i, column + i) {
+                if queen_move(
+                    &self,
+                    box_kind,
+                    &mut q_move,
+                    color_kind,
+                    line + i,
+                    column + i,
+                ) {
                     break;
                 }
             } else {
@@ -575,7 +669,14 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if line + i <= 8 && (column - i) as isize >= 1 {
-                if queen_move(&self, &mut q_move, color_kind, line + i, column - i) {
+                if queen_move(
+                    &self,
+                    box_kind,
+                    &mut q_move,
+                    color_kind,
+                    line + i,
+                    column - i,
+                ) {
                     break;
                 }
             } else {
@@ -585,7 +686,14 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if (line - i) as isize >= 1 && column + i <= 8 {
-                if queen_move(&self, &mut q_move, color_kind, line - i, column + i) {
+                if queen_move(
+                    &self,
+                    box_kind,
+                    &mut q_move,
+                    color_kind,
+                    line - i,
+                    column + i,
+                ) {
                     break;
                 }
             } else {
@@ -595,7 +703,14 @@ impl ChessMove for Tray {
 
         for i in 1..7 {
             if (line - i) as isize >= 1 && (column - i) as isize <= 1 {
-                if queen_move(&self, &mut q_move, color_kind, line - i, column - i) {
+                if queen_move(
+                    &self,
+                    box_kind,
+                    &mut q_move,
+                    color_kind,
+                    line - i,
+                    column - i,
+                ) {
                     break;
                 }
             } else {
@@ -618,6 +733,7 @@ impl ChessMove for Tray {
 
         fn king_move(
             tray: &Tray,
+            box_kind: &ChessBoxKind,
             k_move: &mut Vec<ChessTurnAction>,
             color_kind: &ChessPieceColor,
             line: usize,
@@ -630,12 +746,14 @@ impl ChessMove for Tray {
                     ChessPieceKind::King(_) => {
                         k_move.push(ChessTurnAction::new_check(
                             ChessPieceKind::King(*color_kind),
+                            *box_kind,
                             m,
                         ));
                     }
                     _ => {
                         k_move.push(ChessTurnAction::new_eat(
                             ChessPieceKind::King(*color_kind),
+                            *box_kind,
                             m,
                         ));
                     }
@@ -644,6 +762,7 @@ impl ChessMove for Tray {
                 None => {
                     k_move.push(ChessTurnAction::new_move(
                         ChessPieceKind::King(*color_kind),
+                        *box_kind,
                         m,
                     ));
                 }
@@ -653,37 +772,65 @@ impl ChessMove for Tray {
         // LIKE ROOK MOVE
 
         if line + 1 <= 8 {
-            king_move(&self, &mut k_move, color_kind, line + 1, column)
+            king_move(&self, box_kind, &mut k_move, color_kind, line + 1, column)
         }
 
         if (line - 1) as isize >= 1 {
-            king_move(&self, &mut k_move, color_kind, line - 1, column)
+            king_move(&self, box_kind, &mut k_move, color_kind, line - 1, column)
         }
 
         if column + 1 <= 8 {
-            king_move(&self, &mut k_move, color_kind, line, column + 1)
+            king_move(&self, box_kind, &mut k_move, color_kind, line, column + 1)
         }
 
         if (column - 1) as isize >= 1 {
-            king_move(&self, &mut k_move, color_kind, line, column - 1)
+            king_move(&self, box_kind, &mut k_move, color_kind, line, column - 1)
         }
 
         // LIKE BISHOP MOVE
 
         if line + 1 <= 8 && column + 1 <= 8 {
-            king_move(&self, &mut k_move, color_kind, line + 1, column + 1)
+            king_move(
+                &self,
+                box_kind,
+                &mut k_move,
+                color_kind,
+                line + 1,
+                column + 1,
+            )
         }
 
         if line + 1 <= 8 && (column - 1) as isize >= 1 {
-            king_move(&self, &mut k_move, color_kind, line + 1, column - 1)
+            king_move(
+                &self,
+                box_kind,
+                &mut k_move,
+                color_kind,
+                line + 1,
+                column - 1,
+            )
         }
 
         if (line - 1) as isize >= 1 && column + 1 <= 8 {
-            king_move(&self, &mut k_move, color_kind, line - 1, column + 1)
+            king_move(
+                &self,
+                box_kind,
+                &mut k_move,
+                color_kind,
+                line - 1,
+                column + 1,
+            )
         }
 
         if (line - 1) as isize >= 1 && (column - 1) as isize >= 1 {
-            king_move(&self, &mut k_move, color_kind, line - 1, column - 1)
+            king_move(
+                &self,
+                box_kind,
+                &mut k_move,
+                color_kind,
+                line - 1,
+                column - 1,
+            )
         }
 
         k_move
@@ -788,6 +935,28 @@ impl ChessMove for Tray {
             ChessPieceKind::Queen(c) => self.chess_possible_queen_move(&box_kind, &c),
             ChessPieceKind::King(c) => self.chess_possible_king_move(&box_kind, &c),
         }
+    }
+
+    fn get_all_possible_move(&self, color_kind: &ChessPieceColor) -> Vec<ChessTurnAction> {
+        let mut moves = vec![];
+
+        if color_kind == &ChessPieceColor::White {
+            for f in &self.active_white_piece {
+                let result = self.chess_possible_move(f.piece.unwrap(), f.kind);
+                for r in result {
+                    moves.push(r);
+                }
+            }
+        } else {
+            for f in &self.active_black_piece {
+                let result = self.chess_possible_move(f.piece.unwrap(), f.kind);
+                for r in result {
+                    moves.push(r);
+                }
+            }
+        }
+
+        moves
     }
 }
 

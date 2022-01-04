@@ -43,6 +43,7 @@ version = "0.1.0"
 dependencies = [
  "chess_eval",
  "chess_game",
+ "chess_reader",
  "rustyline",
 ]
 
